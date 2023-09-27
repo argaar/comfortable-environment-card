@@ -1,0 +1,37 @@
+{
+  "common": {
+    "version": "Versione",
+    "description": "Una card per mostrare informazioni sulla temperatura percepita e sull'indice di Thom (Discomfort Index) dovuto a temperatura ed umidità in una stanza!",
+    "invalid_configuration": "La configurazione per Comfortable Environment Card è invalida o non esiste, controllare!",
+    "temperature": "Temperatura",
+    "humidity": "Umidità",
+    "hi": "Percepita",
+    "di": "Indice di Thom"
+  },
+  "configurator": {
+      "room_name": "Nome Stanza",
+      "temp_sensor": "Sensore di temperatura",
+      "hum_sensor": "Sensore di umidità",
+      "use_fahrenheit": "Usa gradi Fahrenheit"
+  },
+  "states": {
+    "hi": {
+      "0": "Ottima",
+      "1": "Attenzione",
+      "2": "Estrema cautela",
+      "3": "Pericolo",
+      "4": "Pericolo Estremo"
+    },
+    "di" : {
+      "0": "Sensazione estrema di disagio",
+      "1": "Sensazione moderata di disagio",
+      "2": "Abbastanza confortevole",
+      "3": "Benessere",
+      "4": "Meno del 50% della popolazione prova un leggero disagio",
+      "5": "Oltre del 50% della popolazione prova un crescente disagio",
+      "6": "La maggioranza della popolazione prova disagio",
+      "7": "Tutti provano un forte disagio",
+      "8": "Stato di emergenza medica"
+    }
+  }
+}
