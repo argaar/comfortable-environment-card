@@ -10,7 +10,7 @@ the DI tells you in realtime if the amount of humidity and the temperature is ok
 since even if the temperature seems to be ok, you could feel hot, too hot, cold, etc. depending on the humidity.
 
 [![GitHub Release][releases-shield]][releases]
-[![License][license-shield]](LICENSE.md)
+[![License][license-shield]](LICENSE)
 [![hacs_badge](https://img.shields.io/badge/HACS-Custom-41BDF5.svg?style=for-the-badge)](https://github.com/hacs/integration)
 
 ![Project Maintenance][maintenance-shield]
