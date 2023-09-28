@@ -26,6 +26,14 @@ since even if the temperature seems to be ok, you could feel hot, too hot, cold,
 | humidity_sensor    | string  | **Required** | Any "sensor" entity reporting humidity         |          |
 | degree_fahrenheit  | boolean | **Optional** | Enable to use other calcs if your temp is in F | `false`  |
 
+## Screenshot
+
+![card_screenshot](screenshot.png "Card in action")
+
+## Credits
+
+Calcs are based on research and (mostly) from National Weather Service (https://www.wpc.ncep.noaa.gov/html/heatindex_equation.shtml)
+The temperature bar idea was inspired by madmicio's ph-meter-temperature card (https://github.com/madmicio/ph-meter-temperature)
 
 [commits-shield]: https://img.shields.io/github/commit-activity/y/argaar/comfortable-environment-card.svg?style=for-the-badge
 [commits]: https://github.com/argaar/comfortable-environment-card/commits/master
