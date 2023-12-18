@@ -49,7 +49,7 @@ class ComfortableEnvironmentCard extends LitElement {
     await import('./editor');
     return document.createElement("comfortable-environment-card-editor");
   }
-  
+
   public static getStubConfig(): Record<string, unknown> {
     return { name: localize('configurator.room_name'), temperature_sensor: "sensor.room_temperature", humidity_sensor: "sensor.room_humidity", degree_fahrenheit: false };
   }
@@ -76,10 +76,10 @@ class ComfortableEnvironmentCard extends LitElement {
     //    HI = 0.5 * {T + 61.0 + [(T-68.0)*1.2] + (RH*0.094)}
     //  In practice, the simple formula is computed first and the result averaged with the temperature. If this heat index value is 80 degrees F or higher, the full regression equation along with any adjustment as described above is applied.
     //  The Rothfusz regression is not valid for extreme temperature and relative humidity conditions beyond the range of data considered by Steadman.
-    
+
     // Compute HI using Farenheit
-    let T = degree_fahrenheit ? tempSensorStatus : tempSensorStatus * 9.0 / 5.0 + 32.0
-    let RH = humSensorStatus
+    const T = degree_fahrenheit ? tempSensorStatus : tempSensorStatus * 9.0 / 5.0 + 32.0
+    const RH = humSensorStatus
     let HI = 0.5 * (T + 61.0 + ((T-68.0)*1.2) + (RH*0.094))
     if (HI >= 80.0) {
       HI = -42.379 + 2.04901523*T + 10.14333127*RH - 0.22475541*T*RH - 0.00683783*T*T - 0.05481717*RH*RH + 0.00122874*T*T*RH + 0.00085282*T*RH*RH - 0.00000199*T*T*RH*RH
@@ -117,7 +117,7 @@ class ComfortableEnvironmentCard extends LitElement {
     DI = parseFloat((temperatureValue - 0.55*(1 - 0.01*humSensorStatus) * (temperatureValue - 14.5)).toFixed(2))
 
     let DIeffects = 0;
-    
+
     switch(true) {
         case DI>10.0 && DI<=15.0:
             DIeffects = 1
