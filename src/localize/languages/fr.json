@@ -12,7 +12,6 @@
       "room_name": "Nom de la pièce",
       "temp_sensor": "Capteur de température",
       "hum_sensor": "Capteur d'humidité",
-      "use_fahrenheit": "En degrés Fahrenheit",
       "show_index": "Sélectionnez les index à afficher"
   },
   "states": {
