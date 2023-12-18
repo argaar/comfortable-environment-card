@@ -31,6 +31,14 @@ class ComfortableEnvironmentCard extends LitElement {
     return 3;
   }
 
+  public toCelsius(tValue: number): number {
+    return (tValue - 32.0) * 5.0 / 9.0 
+  }
+  
+  public toFahrenheit(tValue: number): number {
+    return tValue * 9.0 / 5.0 + 32.0;
+  }
+
   @property({ attribute: false }) public hass!: HomeAssistant;
 
   @state() private config!: ComfortableEnvironmentCardConfig;
@@ -51,7 +59,7 @@ class ComfortableEnvironmentCard extends LitElement {
   }
 
   public static getStubConfig(): Record<string, unknown> {
-    return { name: localize('configurator.room_name'), temperature_sensor: "sensor.room_temperature", humidity_sensor: "sensor.room_humidity", show_index: "ALL", degree_fahrenheit: false };
+    return { name: localize('configurator.room_name'), temperature_sensor: "sensor.room_temperature", humidity_sensor: "sensor.room_humidity", show_index: "ALL" };
   }
 
   protected render(): TemplateResult | void {
@@ -61,8 +69,9 @@ class ComfortableEnvironmentCard extends LitElement {
 
     const tempSensorStatus = Number(this.hass.states[this.config.temperature_sensor!].state);
     const humSensorStatus = Number(this.hass.states[this.config.humidity_sensor!].state);
-    const degree_fahrenheit = this.config.degree_fahrenheit
-    const show_index = this.config.show_index
+    const tempSensorUnit = this.hass.states[this.config.temperature_sensor!].attributes.unit_of_measurement
+    const tempSensorUnitInF = this.hass.states[this.config.temperature_sensor!].attributes.unit_of_measurement==='°F'?true:false
+    const showIndex = this.config.show_index
 
     //Heat Index Equation and constants from https://www.wpc.ncep.noaa.gov/html/heatindex_equation.shtml
     //  The computation of the heat index is a refinement of a result obtained by multiple regression analysis carried out by Lans P. Rothfusz and described in a 1990 National Weather Service (NWS) Technical Attachment (SR 90-23).  The regression equation of Rothfusz is
@@ -79,7 +88,7 @@ class ComfortableEnvironmentCard extends LitElement {
     //  The Rothfusz regression is not valid for extreme temperature and relative humidity conditions beyond the range of data considered by Steadman.
 
     // Compute HI using Farenheit
-    const T = degree_fahrenheit ? tempSensorStatus : tempSensorStatus * 9.0 / 5.0 + 32.0
+    const T = tempSensorUnitInF ? tempSensorStatus : this.toFahrenheit(tempSensorStatus)
     const RH = humSensorStatus
     let HI = 0.5 * (T + 61.0 + ((T-68.0)*1.2) + (RH*0.094))
     if (HI >= 80.0) {
@@ -107,13 +116,13 @@ class ComfortableEnvironmentCard extends LitElement {
             break;
     }
 
-    // Convert HI in user degree unit
-    HI = degree_fahrenheit ? (tempSensorStatus - 32.0) * 5.0 / 9.0 : tempSensorStatus
+    // Convert HI back to original unit_of_measurement from sensor
+    HI = tempSensorUnitInF ? HI : this.toCelsius(HI)
     HI = parseFloat(HI.toFixed(2))
 
 
-    // Compute DI using Celcius
-    const temperatureValue = degree_fahrenheit?(tempSensorStatus-32)*5/9:tempSensorStatus
+    // Compute DI using Celsius
+    const temperatureValue = tempSensorUnitInF ? this.toCelsius(tempSensorStatus) : tempSensorStatus
 
     const DI = parseFloat((temperatureValue - 0.55*(1 - 0.01*humSensorStatus) * (temperatureValue - 14.5)).toFixed(2))
 
@@ -146,7 +155,7 @@ class ComfortableEnvironmentCard extends LitElement {
             break;
     }
 
-    if (show_index == 'HI') {
+    if (showIndex == 'HI') {
                 return html`
           ${this.renderStyle()}
           <ha-card .header="${this.config.room_name}">
@@ -154,11 +163,11 @@ class ComfortableEnvironmentCard extends LitElement {
             <div id="card" style="filter: saturate(100%");>
 
               <div class="comfort-env-text" >
-                <div>${localize('common.hi')}: ${HI}°${degree_fahrenheit?'F':'C'} - ${localize('states.hi.'+[HIeffects])}</div>
+                <div>${localize('common.hi')}: ${HI}${tempSensorUnit} - ${localize('states.hi.'+[HIeffects])}</div>
               </div>
               <div class="color-range-container">
                 <div class="color-range-gradient" style="background: linear-gradient(90deg, rgb(254, 240, 217) 0%, rgb(253, 204, 138) 28%, rgb(252, 141, 89) 42%, rgb(227, 74, 51) 66%, rgb(179, 0, 0) 100%);" >
-                    <li  class="value-box" style="margin-left: max(0%,calc(${this.calcRange(0,100,degree_fahrenheit?76:23,degree_fahrenheit?132:57,HI)}% - 46px))">${HI}</li>
+                    <li  class="value-box" style="margin-left: max(0%,calc(${this.calcRange(0,100,tempSensorUnitInF?76:23,tempSensorUnitInF?132:57,HI)}% - 46px))">${HI}</li>
                 </div>
               </div>
 
@@ -166,7 +175,7 @@ class ComfortableEnvironmentCard extends LitElement {
 
           </ha-card>
         `;
-    } else if (show_index == 'DI') {
+    } else if (showIndex == 'DI') {
         return html`
           ${this.renderStyle()}
           <ha-card .header="${this.config.room_name}">
@@ -194,16 +203,16 @@ class ComfortableEnvironmentCard extends LitElement {
               <div id="card" style="filter: saturate(100%");>
 
                 <div class="comfort-env-text" >
-                  <div>${localize('common.temperature')}: ${tempSensorStatus}°${degree_fahrenheit?'F':'C'}</div>
+                  <div>${localize('common.temperature')}: ${tempSensorStatus}${tempSensorUnit}</div>
                   <div>${localize('common.humidity')}: ${humSensorStatus}%</div>
                 </div>
 
                 <div class="comfort-env-text" >
-                  <div>${localize('common.hi')}: ${HI}°${degree_fahrenheit?'F':'C'} - ${localize('states.hi.'+[HIeffects])}</div>
+                  <div>${localize('common.hi')}: ${HI}${tempSensorUnit} - ${localize('states.hi.'+[HIeffects])}</div>
                 </div>
                 <div class="color-range-container">
                   <div class="color-range-gradient" style="background: linear-gradient(90deg, rgb(254, 240, 217) 0%, rgb(253, 204, 138) 28%, rgb(252, 141, 89) 42%, rgb(227, 74, 51) 66%, rgb(179, 0, 0) 100%);" >
-                      <li  class="value-box" style="margin-left: max(0%,calc(${this.calcRange(0,100,degree_fahrenheit?76:23,degree_fahrenheit?132:57,HI)}% - 46px))">${HI}</li>
+                      <li  class="value-box" style="margin-left: max(0%,calc(${this.calcRange(0,100,tempSensorUnitInF?76:23,tempSensorUnitInF?132:57,HI)}% - 46px))">${HI}</li>
                   </div>
                 </div>
 

@@ -1,4 +1,4 @@
-# Comfortable Environment Card by [@argaar](https://www.github.com/argaar)
+# Comfortable Environment Card
 
 A card to display the Heat Index and Discomfort Index (aka Thom Index)
 
@@ -24,7 +24,6 @@ since even if the temperature seems to be ok, you could feel hot, too hot, cold,
 | room_name          | string  | **Optional** | Room name at top of the card                   |          |
 | temperature_sensor | string  | **Required** | Any "sensor" entity reporting temperature      |          |
 | humidity_sensor    | string  | **Required** | Any "sensor" entity reporting humidity         |          |
-| degree_fahrenheit  | boolean | **Optional** | Enable to use other calcs if your temp is in F | `false`  |
 | show_index         | string  | **Optional** | Choose index to show (ALL, HI, DI)             |          |
 
 ## Screenshot
@@ -34,7 +33,15 @@ since even if the temperature seems to be ok, you could feel hot, too hot, cold,
 ## Credits
 
 Calcs are based on research and (mostly) from National Weather Service (https://www.wpc.ncep.noaa.gov/html/heatindex_equation.shtml)
-The temperature bar idea was inspired by madmicio's ph-meter-temperature card (https://github.com/madmicio/ph-meter-temperature)
+The temperature bar idea was inspired by @madmicio 's ph-meter-temperature card (https://github.com/madmicio/ph-meter-temperature)
+
+## Translations
+
+This card is available in the following languages:
+
+English (default one) - by @argaar
+Italian - by @argaar
+French - by @GaPhi
 
 [commits-shield]: https://img.shields.io/github/commit-activity/y/argaar/comfortable-environment-card.svg?style=for-the-badge
 [commits]: https://github.com/argaar/comfortable-environment-card/commits/master

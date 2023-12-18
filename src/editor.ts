@@ -7,7 +7,6 @@ import { ComfortableEnvironmentCardConfig } from './types';
 import { customElement, property, state } from 'lit/decorators';
 import { formfieldDefinition } from '../elements/formfield';
 import { selectDefinition } from '../elements/select';
-import { switchDefinition } from '../elements/switch';
 import { textfieldDefinition } from '../elements/textfield';
 
 import { localize } from './localize/localize';
@@ -22,7 +21,6 @@ export class ComfortableEnvironmentCardEditor extends ScopedRegistryHost(LitElem
   static elementDefinitions = {
     ...textfieldDefinition,
     ...selectDefinition,
-    ...switchDefinition,
     ...formfieldDefinition,
   };
 
@@ -55,7 +53,19 @@ export class ComfortableEnvironmentCardEditor extends ScopedRegistryHost(LitElem
       return html``;
     }
 
-    const sensors = Object.keys(this.hass.states).filter(eid => eid.substr(0, eid.indexOf('.')) === 'sensor').sort();
+    const hass_devices = this.hass.states
+    const tempSensors: string[] = [];
+    Object.keys(hass_devices).filter(eid => eid.substr(0, eid.indexOf('.')) === 'sensor').sort().forEach(function (k) {
+        if (hass_devices[k].attributes.device_class === 'temperature') {
+            tempSensors.push(k)
+        }
+    })
+    const humSensors: string[] = [];
+    Object.keys(hass_devices).filter(eid => eid.substr(0, eid.indexOf('.')) === 'sensor').sort().forEach(function (k) {
+        if (hass_devices[k].attributes.device_class === 'humidity') {
+            humSensors.push(k)
+        }
+    })
 
     return html`
       <mwc-textfield
@@ -74,7 +84,7 @@ export class ComfortableEnvironmentCardEditor extends ScopedRegistryHost(LitElem
         @selected=${this._valueChanged}
         @closed=${(ev) => ev.stopPropagation()}
       >
-        ${sensors.map((entity) => {
+        ${tempSensors.map((entity) => {
           return html`<mwc-list-item .value=${entity}>${entity}</mwc-list-item>`;
         })}
       </mwc-select>
@@ -88,7 +98,7 @@ export class ComfortableEnvironmentCardEditor extends ScopedRegistryHost(LitElem
         @selected=${this._valueChanged}
         @closed=${(ev) => ev.stopPropagation()}
       >
-        ${sensors.map((entity) => {
+        ${humSensors.map((entity) => {
           return html`<mwc-list-item .value=${entity}>${entity}</mwc-list-item>`;
         })}
       </mwc-select>
@@ -106,14 +116,6 @@ export class ComfortableEnvironmentCardEditor extends ScopedRegistryHost(LitElem
           return html`<mwc-list-item .value=${entity}>${entity}</mwc-list-item>`;
         })}
       </mwc-select>
-
-       <mwc-formfield .label=${`${localize('configurator.use_fahrenheit')}`}>
-        <mwc-switch
-          .checked=${this._degree_fahrenheit !== false}
-          .configValue=${'degree_fahrenheit'}
-          @change=${this._valueChanged}
-        ></mwc-switch>
-      </mwc-formfield>
 
     `;
   }
