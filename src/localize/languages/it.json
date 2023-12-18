@@ -12,7 +12,8 @@
       "room_name": "Nome Stanza",
       "temp_sensor": "Sensore di temperatura",
       "hum_sensor": "Sensore di umidità",
-      "use_fahrenheit": "Usa gradi Fahrenheit"
+      "use_fahrenheit": "Usa gradi Fahrenheit",
+      "show_index": "Scegli quale indice mostrare"
   },
   "states": {
     "hi": {

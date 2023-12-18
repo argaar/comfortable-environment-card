@@ -51,7 +51,7 @@ class ComfortableEnvironmentCard extends LitElement {
   }
 
   public static getStubConfig(): Record<string, unknown> {
-    return { name: localize('configurator.room_name'), temperature_sensor: "sensor.room_temperature", humidity_sensor: "sensor.room_humidity", degree_fahrenheit: false };
+    return { name: localize('configurator.room_name'), temperature_sensor: "sensor.room_temperature", humidity_sensor: "sensor.room_humidity", show_index: "ALL", degree_fahrenheit: false };
   }
 
   protected render(): TemplateResult | void {
@@ -62,6 +62,7 @@ class ComfortableEnvironmentCard extends LitElement {
     const tempSensorStatus = Number(this.hass.states[this.config.temperature_sensor!].state);
     const humSensorStatus = Number(this.hass.states[this.config.humidity_sensor!].state);
     const degree_fahrenheit = this.config.degree_fahrenheit
+    const show_index = this.config.show_index
 
     //Heat Index Equation and constants from https://www.wpc.ncep.noaa.gov/html/heatindex_equation.shtml
     //  The computation of the heat index is a refinement of a result obtained by multiple regression analysis carried out by Lans P. Rothfusz and described in a 1990 National Weather Service (NWS) Technical Attachment (SR 90-23).  The regression equation of Rothfusz is
@@ -114,7 +115,7 @@ class ComfortableEnvironmentCard extends LitElement {
     // Compute DI using Celcius
     const temperatureValue = degree_fahrenheit?(tempSensorStatus-32)*5/9:tempSensorStatus
 
-    DI = parseFloat((temperatureValue - 0.55*(1 - 0.01*humSensorStatus) * (temperatureValue - 14.5)).toFixed(2))
+    const DI = parseFloat((temperatureValue - 0.55*(1 - 0.01*humSensorStatus) * (temperatureValue - 14.5)).toFixed(2))
 
     let DIeffects = 0;
 
@@ -145,38 +146,81 @@ class ComfortableEnvironmentCard extends LitElement {
             break;
     }
 
-    return html`
-      ${this.renderStyle()}
-      <ha-card .header="${this.config.room_name}">
+    if (show_index == 'HI') {
+                return html`
+          ${this.renderStyle()}
+          <ha-card .header="${this.config.room_name}">
 
-        <div id="card" style="filter: saturate(100%");>
+            <div id="card" style="filter: saturate(100%");>
 
-          <div class="comfort-env-text" >
-            <div>${localize('common.temperature')}: ${tempSensorStatus}°${degree_fahrenheit?'F':'C'}</div>
-            <div>${localize('common.humidity')}: ${humSensorStatus}%</div>
-          </div>
+              <div class="comfort-env-text" >
+                <div>${localize('common.hi')}: ${HI}°${degree_fahrenheit?'F':'C'} - ${localize('states.hi.'+[HIeffects])}</div>
+              </div>
+              <div class="color-range-container">
+                <div class="color-range-gradient" style="background: linear-gradient(90deg, rgb(254, 240, 217) 0%, rgb(253, 204, 138) 28%, rgb(252, 141, 89) 42%, rgb(227, 74, 51) 66%, rgb(179, 0, 0) 100%);" >
+                    <li  class="value-box" style="margin-left: max(0%,calc(${this.calcRange(0,100,degree_fahrenheit?76:23,degree_fahrenheit?132:57,HI)}% - 46px))">${HI}</li>
+                </div>
+              </div>
 
-          <div class="comfort-env-text" >
-            <div>${localize('common.hi')}: ${HI}°${degree_fahrenheit?'F':'C'} - ${localize('states.hi.'+[HIeffects])}</div>
-          </div>
-          <div class="color-range-container">
-            <div class="color-range-gradient" style="background: linear-gradient(90deg, rgb(254, 240, 217) 0%, rgb(253, 204, 138) 28%, rgb(252, 141, 89) 42%, rgb(227, 74, 51) 66%, rgb(179, 0, 0) 100%);" >
-              <li  class="value-box" style="margin-left: max(0%,calc(${this.calcRange(0,100,degree_fahrenheit?76:23,degree_fahrenheit?132:57,HI)}% - 46px))">${HI}</li>
             </div>
-          </div>
 
-          <div class="comfort-env-text" >
-            <div>${localize('common.di')}: ${DI} - ${localize('states.di.'+[DIeffects])}</div>
-          </div>
-          <div class="color-range-container">
-            <div class="color-range-gradient" style="background: linear-gradient(90deg,rgb(5, 112, 176) 0%,rgb(116, 169, 207)12%,rgb(189, 201, 225) 32%,rgb(241, 238, 246) 44%,rgb(254, 240, 217) 56%,rgb(253, 204, 138) 68%,rgb(252, 141, 89) 80%,rgb(227, 74, 51) 88%,rgb(179, 0, 0) 100%);" >
-              <li  class="value-box" style="margin-left: max(0%,calc(${this.calcRange(0,100,8,34,DI)}% - 46px))">${DI}</li>
+          </ha-card>
+        `;
+    } else if (show_index == 'DI') {
+        return html`
+          ${this.renderStyle()}
+          <ha-card .header="${this.config.room_name}">
+
+            <div id="card" style="filter: saturate(100%");>
+
+              <div class="comfort-env-text" >
+                <div>${localize('common.di')}: ${DI} - ${localize('states.di.'+[DIeffects])}</div>
+              </div>
+              <div class="color-range-container">
+                <div class="color-range-gradient" style="background: linear-gradient(90deg,rgb(5, 112, 176) 0%,rgb(116, 169, 207)12%,rgb(189, 201, 225) 32%,rgb(241, 238, 246) 44%,rgb(254, 240, 217) 56%,rgb(253, 204, 138) 68%,rgb(252, 141, 89) 80%,rgb(227, 74, 51) 88%,rgb(179, 0, 0) 100%);" >
+                    <li  class="value-box" style="margin-left: max(0%,calc(${this.calcRange(0,100,8,34,DI)}% - 46px))">${DI}</li>
+                </div>
+              </div>
+
             </div>
-          </div>
-        </div>
 
-      </ha-card>
-    `;
+          </ha-card>
+        `;
+    } else {
+        return html`
+          ${this.renderStyle()}
+          <ha-card .header="${this.config.room_name}">
+
+              <div id="card" style="filter: saturate(100%");>
+
+                <div class="comfort-env-text" >
+                  <div>${localize('common.temperature')}: ${tempSensorStatus}°${degree_fahrenheit?'F':'C'}</div>
+                  <div>${localize('common.humidity')}: ${humSensorStatus}%</div>
+                </div>
+
+                <div class="comfort-env-text" >
+                  <div>${localize('common.hi')}: ${HI}°${degree_fahrenheit?'F':'C'} - ${localize('states.hi.'+[HIeffects])}</div>
+                </div>
+                <div class="color-range-container">
+                  <div class="color-range-gradient" style="background: linear-gradient(90deg, rgb(254, 240, 217) 0%, rgb(253, 204, 138) 28%, rgb(252, 141, 89) 42%, rgb(227, 74, 51) 66%, rgb(179, 0, 0) 100%);" >
+                      <li  class="value-box" style="margin-left: max(0%,calc(${this.calcRange(0,100,degree_fahrenheit?76:23,degree_fahrenheit?132:57,HI)}% - 46px))">${HI}</li>
+                  </div>
+                </div>
+
+                <div class="comfort-env-text" >
+                  <div>${localize('common.di')}: ${DI} - ${localize('states.di.'+[DIeffects])}</div>
+                </div>
+                <div class="color-range-container">
+                  <div class="color-range-gradient" style="background: linear-gradient(90deg,rgb(5, 112, 176) 0%,rgb(116, 169, 207)12%,rgb(189, 201, 225) 32%,rgb(241, 238, 246) 44%,rgb(254, 240, 217) 56%,rgb(253, 204, 138) 68%,rgb(252, 141, 89) 80%,rgb(227, 74, 51) 88%,rgb(179, 0, 0) 100%);" >
+                      <li  class="value-box" style="margin-left: max(0%,calc(${this.calcRange(0,100,8,34,DI)}% - 46px))">${DI}</li>
+                  </div>
+                </div>
+
+              </div>
+
+          </ha-card>
+        `;
+    }
   }
 
     protected calcRange(target_start: number, target_end: number, current_start: number, current_end: number, value: number): number {

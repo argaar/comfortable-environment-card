@@ -11,7 +11,7 @@ since even if the temperature seems to be ok, you could feel hot, too hot, cold,
 
 [![GitHub Release][releases-shield]][releases]
 [![License][license-shield]](LICENSE)
-[![hacs_badge](https://img.shields.io/badge/HACS-Custom-41BDF5.svg?style=for-the-badge)](https://github.com/hacs/integration)
+[![hacs_badge](https://img.shields.io/badge/HACS-DEFAULT-41BDF5.svg?style=for-the-badge)](https://github.com/hacs/integration)
 
 ![Project Maintenance][maintenance-shield]
 [![GitHub Activity][commits-shield]][commits]
@@ -28,7 +28,7 @@ since even if the temperature seems to be ok, you could feel hot, too hot, cold,
 
 ## Screenshot
 
-![card_screenshot](screenshot.png "Card in action")
+![card_screenshot](https://github.com/argaar/comfortable-environment-card/blob/main/screenshot.png "Card in action")
 
 ## Credits
 

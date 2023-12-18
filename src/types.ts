@@ -12,5 +12,6 @@ export interface ComfortableEnvironmentCardConfig extends LovelaceCardConfig {
   room_name: string;
   temperature_sensor: string;
   humidity_sensor: string;
+  show_index: string;
   degree_fahrenheit: boolean;
 }

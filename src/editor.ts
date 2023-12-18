@@ -46,6 +46,10 @@ export class ComfortableEnvironmentCardEditor extends ScopedRegistryHost(LitElem
     return this._config?.degree_fahrenheit || false;
   }
 
+  get _show_index(): string {
+      return this._config?.show_index || "ALL";
+  }
+
   protected render(): TemplateResult | void {
     if (!this.hass) {
       return html``;
@@ -89,6 +93,20 @@ export class ComfortableEnvironmentCardEditor extends ScopedRegistryHost(LitElem
         })}
       </mwc-select>
 
+      <mwc-select
+        naturalMenuWidth
+        fixedMenuPosition
+        label="${localize('configurator.show_index')}"
+        .configValue=${'show_index'}
+        .value=${this._show_index}
+        @selected=${this._valueChanged}
+        @closed=${(ev) => ev.stopPropagation()}
+      >
+        ${['ALL','HI','DI'].map((entity) => {
+          return html`<mwc-list-item .value=${entity}>${entity}</mwc-list-item>`;
+        })}
+      </mwc-select>
+
        <mwc-formfield .label=${`${localize('configurator.use_fahrenheit')}`}>
         <mwc-switch
           .checked=${this._degree_fahrenheit !== false}
@@ -96,6 +114,7 @@ export class ComfortableEnvironmentCardEditor extends ScopedRegistryHost(LitElem
           @change=${this._valueChanged}
         ></mwc-switch>
       </mwc-formfield>
+
     `;
   }
 
