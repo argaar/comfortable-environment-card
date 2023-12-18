@@ -49,7 +49,7 @@ class ComfortableEnvironmentCard extends LitElement {
     await import('./editor');
     return document.createElement("comfortable-environment-card-editor");
   }
-  
+
   public static getStubConfig(): Record<string, unknown> {
     return { name: localize('configurator.room_name'), temperature_sensor: "sensor.room_temperature", humidity_sensor: "sensor.room_humidity", degree_fahrenheit: false };
   }
@@ -61,117 +61,63 @@ class ComfortableEnvironmentCard extends LitElement {
 
     const tempSensorStatus = Number(this.hass.states[this.config.temperature_sensor!].state);
     const humSensorStatus = Number(this.hass.states[this.config.humidity_sensor!].state);
-
-    //Heat Index Equation and constants from https://www.wpc.ncep.noaa.gov/html/heatindex_equation.shtml
-    // Formula from https://en.wikipedia.org/wiki/Heat_index#Formula
-    
-    const lowRH = 13
-    const minTLowRH = 26.6
-    const maxTLowRH = 44.4
-    const highRH = 85
-    const minTHighRH = 26.6 
-    const maxTHighRH = 30.5
-
-    let ADJ = 0
-    let HI = 0
-    let DI = 0
-
-    let c1 = 0
-    let c2 = 0
-    let c3 = 0
-    let c4 = 0
-    let c5 = 0
-    let c6 = 0
-    let c7 = 0
-    let c8 = 0
-    let c9 = 0
-
     const degree_fahrenheit = this.config.degree_fahrenheit
 
-    if (degree_fahrenheit === false) {
-        //Celsius wins, okay maybe Kelvin but...
-        c1 = -8.78469475556
-        c2 = 1.61139411
-        c3 = 2.33854883889
-        c4 = -0.14611605
-        c5 = -0.012308094
-        c6 = -0.0164248277778
-        c7 = 2.211732*Math.pow(10,-3)
-        c8 = 7.2546*Math.pow(10,-4)
-        c9 = -3.582*Math.pow(10,-6)
+    //Heat Index Equation and constants from https://www.wpc.ncep.noaa.gov/html/heatindex_equation.shtml
+    //  The computation of the heat index is a refinement of a result obtained by multiple regression analysis carried out by Lans P. Rothfusz and described in a 1990 National Weather Service (NWS) Technical Attachment (SR 90-23).  The regression equation of Rothfusz is
+    //    HI = -42.379 + 2.04901523*T + 10.14333127*RH - .22475541*T*RH - .00683783*T*T - .05481717*RH*RH + .00122874*T*T*RH + .00085282*T*RH*RH - .00000199*T*T*RH*RH
+    //  where T is temperature in degrees F and RH is relative humidity in percent.  HI is the heat index expressed as an apparent temperature in degrees F.
+    //  If the RH is less than 13% and the temperature is between 80 and 112 degrees F, then the following adjustment is subtracted from HI:
+    //    ADJUSTMENT = [(13-RH)/4]*SQRT{[17-ABS(T-95.)]/17}
+    //  where ABS and SQRT are the absolute value and square root functions, respectively.
+    //  On the other hand, if the RH is greater than 85% and the temperature is between 80 and 87 degrees F, then the following adjustment is added to HI:
+    //    ADJUSTMENT = [(RH-85)/10] * [(87-T)/5]
+    //  The Rothfusz regression is not appropriate when conditions of temperature and humidity warrant a heat index value below about 80 degrees F. In those cases, a simpler formula is applied to calculate values consistent with Steadman's results:
+    //    HI = 0.5 * {T + 61.0 + [(T-68.0)*1.2] + (RH*0.094)}
+    //  In practice, the simple formula is computed first and the result averaged with the temperature. If this heat index value is 80 degrees F or higher, the full regression equation along with any adjustment as described above is applied.
+    //  The Rothfusz regression is not valid for extreme temperature and relative humidity conditions beyond the range of data considered by Steadman.
 
-        // Rothfusz regression
-        if ((humSensorStatus < lowRH) && (minTLowRH < tempSensorStatus) && (tempSensorStatus < maxTLowRH)) { // Adjustment for low RH
-            ADJ = ((13-humSensorStatus)/4)*Math.sqrt((17-Math.abs(tempSensorStatus-35.))/17)
-        }
-
-        if ((humSensorStatus > highRH) && (minTHighRH < tempSensorStatus) && (tempSensorStatus < maxTHighRH)) { // Adjustment for high RH
-            ADJ = ((humSensorStatus-85)/10) * ((30.5-tempSensorStatus)/5)
-        }
-
-    } else {
-        c1 = -42.379
-        c2 = 2.04901523
-        c3 = 10.14333127
-        c4 = -0.22475541
-        c5 = -6.3783*Math.pow(10,-3)
-        c6 = -5.481717*Math.pow(10,-2)
-        c7 = 1.22874*Math.pow(10,-3)
-        c8 = 8.5282*Math.pow(10,-4)
-        c9 = -1.99*Math.pow(10,-6)
-
-        if ((humSensorStatus < lowRH) && (minTLowRH < tempSensorStatus) && (tempSensorStatus < maxTLowRH)) { // Adjustment for low RH
-            ADJ = ((13-humSensorStatus)/4)*Math.sqrt((17-Math.abs(tempSensorStatus-95.))/17)
-        }
-
-        if ((humSensorStatus > highRH) && (minTHighRH < tempSensorStatus) && (tempSensorStatus < maxTHighRH)) { // Adjustment for high RH
-            ADJ = ((humSensorStatus-85)/10) * ((87-tempSensorStatus)/5)
-        }
+    // Compute HI using Farenheit
+    const T = degree_fahrenheit ? tempSensorStatus : tempSensorStatus * 9.0 / 5.0 + 32.0
+    const RH = humSensorStatus
+    let HI = 0.5 * (T + 61.0 + ((T-68.0)*1.2) + (RH*0.094))
+    if (HI >= 80.0) {
+      HI = -42.379 + 2.04901523*T + 10.14333127*RH - 0.22475541*T*RH - 0.00683783*T*T - 0.05481717*RH*RH + 0.00122874*T*T*RH + 0.00085282*T*RH*RH - 0.00000199*T*T*RH*RH
+      if (RH < 13.0) {
+        HI = HI - ((13.0 - RH) / 4.0) * Math.sqrt((17.0 - Math.abs(T - 95.0)) / 17.0)
+      } else if (RH > 85.0 && T >= 80.0 && T <= 87.0) {
+        HI = HI + ((RH - 85.0) / 10.0) * ((87.0 - T) / 5.0)
+      }
     }
 
-    HI = (c1 + c2*tempSensorStatus + c3*humSensorStatus + c4*tempSensorStatus*humSensorStatus + c5*tempSensorStatus*tempSensorStatus + c6*humSensorStatus*humSensorStatus + c7*tempSensorStatus*tempSensorStatus*humSensorStatus + c8*tempSensorStatus*humSensorStatus*humSensorStatus + c9*tempSensorStatus*tempSensorStatus*humSensorStatus*humSensorStatus) - ADJ
-
-    HI = parseFloat(HI.toFixed(2))
     let HIeffects = 0;
-    
-    if (degree_fahrenheit === false) {
-        switch(true) {
-            case HI>=27.0 && HI<=32.0:
-                HIeffects = 1
-                break;
-            case HI>32.0 && HI<=41.0:
-                HIeffects = 2
-                break;
-            case HI>41.0 && HI<=54.0:
-                HIeffects = 3
-                break;
-            case HI>54.0:
-                HIeffects = 4
-                break;
-        }
-    } else {
-        switch(true) {
-            case HI>=80 && HI<=90.0:
-                HIeffects = 1
-                break;
-            case HI>90.0 && HI<=105.0:
-                HIeffects = 2
-                break;
-            case HI>105.0 && HI<=130.0:
-                HIeffects = 3
-                break;
-            case HI>130.0:
-                HIeffects = 4
-                break;
-        }
+    switch(true) {
+        case HI>=80 && HI<=90.0:
+            HIeffects = 1
+            break;
+        case HI>90.0 && HI<=105.0:
+            HIeffects = 2
+            break;
+        case HI>105.0 && HI<=130.0:
+            HIeffects = 3
+            break;
+        case HI>130.0:
+            HIeffects = 4
+            break;
     }
 
+    // Convert HI in user degree unit
+    HI = degree_fahrenheit ? (tempSensorStatus - 32.0) * 5.0 / 9.0 : tempSensorStatus
+    HI = parseFloat(HI.toFixed(2))
+
+
+    // Compute DI using Celcius
     const temperatureValue = degree_fahrenheit?(tempSensorStatus-32)*5/9:tempSensorStatus
 
     DI = parseFloat((temperatureValue - 0.55*(1 - 0.01*humSensorStatus) * (temperatureValue - 14.5)).toFixed(2))
 
     let DIeffects = 0;
-    
+
     switch(true) {
         case DI>10.0 && DI<=15.0:
             DIeffects = 1
