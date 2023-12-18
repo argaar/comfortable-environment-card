@@ -25,6 +25,7 @@ since even if the temperature seems to be ok, you could feel hot, too hot, cold,
 | temperature_sensor | string  | **Required** | Any "sensor" entity reporting temperature      |          |
 | humidity_sensor    | string  | **Required** | Any "sensor" entity reporting humidity         |          |
 | degree_fahrenheit  | boolean | **Optional** | Enable to use other calcs if your temp is in F | `false`  |
+| show_index         | string  | **Optional** | Choose index to show (ALL, HI, DI)             |          |
 
 ## Screenshot
 
