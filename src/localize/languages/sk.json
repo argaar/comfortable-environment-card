@@ -12,7 +12,6 @@
       "room_name": "Názov miestnosti",
       "temp_sensor": "Snímač teploty",
       "hum_sensor": "Snímač vlhkosti",
-      "use_fahrenheit": "Použite stupne Fahrenheita",
       "show_index": "Vyberte, ktorý index chcete zobraziť"
   },
   "states": {

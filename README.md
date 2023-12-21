@@ -39,9 +39,11 @@ The temperature bar idea was inspired by @madmicio 's ph-meter-temperature card 
 
 This card is available in the following languages:
 
-English (default one) - by @argaar
-Italian - by @argaar
-French - by @GaPhi
+English (default) - by [@argaar](https://github.com/argaar)
+Italian - by [@argaar](https://github.com/argaar)
+French - by [@GaPhi](https://github.com/GaPhi)
+Slovak - by [@misa1515](https://github.com/misa1515)
+Russian - by [@kai-zer-ru](https://github.com/kai-zer-ru)
 
 [commits-shield]: https://img.shields.io/github/commit-activity/y/argaar/comfortable-environment-card.svg?style=for-the-badge
 [commits]: https://github.com/argaar/comfortable-environment-card/commits/master
