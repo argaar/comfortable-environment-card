@@ -12,7 +12,6 @@
       "room_name": "Room Name",
       "temp_sensor": "Temperature sensor",
       "hum_sensor": "Humidity sensor",
-      "use_fahrenheit": "Use Fahrenheit degree",
       "show_index": "Choose which index you want to show"
   },
   "states": {
