@@ -6,7 +6,6 @@ declare global {
   }
 }
 
-// TODO Add your configuration elements here for type-checking
 export interface ComfortableEnvironmentCardConfig extends LovelaceCardConfig {
   type: string;
   room_name: string;

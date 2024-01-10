@@ -5,6 +5,12 @@ import {
   HomeAssistant,
   LovelaceCardEditor,
 } from 'custom-card-helpers';
+import {
+  mdiSunThermometer,
+  mdiThermometer,
+  mdiThermometerLines,
+  mdiWaterPercent
+} from '@mdi/js';
 
 import type { ComfortableEnvironmentCardConfig } from './types';
 import { CARD_VERSION } from './const';
@@ -156,21 +162,54 @@ class ComfortableEnvironmentCard extends LitElement {
     }
 
     if (showIndex == 'HI') {
-                return html`
+        return html`
           ${this.renderStyle()}
-          <ha-card .header="${this.config.room_name}">
+          <ha-card tabindex="0">
 
-            <div id="card" style="filter: saturate(100%");>
+            <div class="header">
+              <div class="name">
+                ${this.config.room_name}
+              </div>
+              <div class="header_icons">
+                <div class="temp">
+                  ${tempSensorStatus}${tempSensorUnit}
+                  <div class="icon">
+                    <svg preserveAspectRatio="xMidYMid meet" focusable="false" role="img" aria-hidden="true" viewBox="0 0 24 24" style="fill: var(--state-icon-color); vertical-align: sub;">
+                      <g>
+                        <path class="primary-path" d="${mdiThermometer}" />
+                      </g>
+                    </svg>
+                  </div>
+                </div>
+                <div class="hum">
+                  ${humSensorStatus}%
+                  <div class="icon">
+                    <svg preserveAspectRatio="xMidYMid meet" focusable="false" role="img" aria-hidden="true" viewBox="0 0 24 24" style="fill: var(--state-icon-color); vertical-align: sub;">
+                      <g>
+                        <path class="primary-path" d="${mdiWaterPercent}" />
+                      </g>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
 
-              <div class="comfort-env-text" >
-                <div>${localize('common.hi')}: ${HI}${tempSensorUnit} - ${localize('states.hi.'+[HIeffects])}</div>
+            <div class="info">
+              <div class="comfort-env-text">
+                <div class="icon">
+                  <svg preserveAspectRatio="xMidYMid meet" focusable="false" role="img" aria-hidden="true" viewBox="0 0 24 24" style="fill: var(--state-icon-color); vertical-align: sub;">
+                    <g>
+                      <path class="primary-path" d="${mdiSunThermometer}" />
+                    </g>
+                  </svg>
+                </div>
+                <div class="effects">${localize('common.hi')}: ${HI}${tempSensorUnit} - ${localize('states.hi.'+[HIeffects])}</div>
               </div>
               <div class="color-range-container">
                 <div class="color-range-gradient" style="background: linear-gradient(90deg, rgb(254, 240, 217) 0%, rgb(253, 204, 138) 28%, rgb(252, 141, 89) 42%, rgb(227, 74, 51) 66%, rgb(179, 0, 0) 100%);" >
-                    <li  class="value-box" style="margin-left: max(0%,calc(${this.calcRange(0,100,tempSensorUnitInF?76:23,tempSensorUnitInF?132:57,HI)}% - 46px))">${HI}</li>
+                    <li class="value-box" style="margin-left: max(0%,calc(${this.calcRange(0,100,tempSensorUnitInF?76:23,tempSensorUnitInF?132:57,HI)}% - 46px))">${HI}</li>
                 </div>
               </div>
-
             </div>
 
           </ha-card>
@@ -178,19 +217,52 @@ class ComfortableEnvironmentCard extends LitElement {
     } else if (showIndex == 'DI') {
         return html`
           ${this.renderStyle()}
-          <ha-card .header="${this.config.room_name}">
+          <ha-card tabindex="0">
 
-            <div id="card" style="filter: saturate(100%");>
+            <div class="header">
+              <div class="name">
+                ${this.config.room_name}
+              </div>
+              <div class="header_icons">
+                <div class="temp">
+                  ${tempSensorStatus}${tempSensorUnit}
+                  <div class="icon">
+                    <svg preserveAspectRatio="xMidYMid meet" focusable="false" role="img" aria-hidden="true" viewBox="0 0 24 24" style="fill: var(--state-icon-color); vertical-align: sub;">
+                      <g>
+                        <path class="primary-path" d="${mdiThermometer}" />
+                      </g>
+                    </svg>
+                  </div>
+                </div>
+                <div class="hum">
+                  ${humSensorStatus}%
+                  <div class="icon">
+                    <svg preserveAspectRatio="xMidYMid meet" focusable="false" role="img" aria-hidden="true" viewBox="0 0 24 24" style="fill: var(--state-icon-color); vertical-align: sub;">
+                      <g>
+                        <path class="primary-path" d="${mdiWaterPercent}" />
+                      </g>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
 
-              <div class="comfort-env-text" >
-                <div>${localize('common.di')}: ${DI} - ${localize('states.di.'+[DIeffects])}</div>
+            <div class="info">
+              <div class="comfort-env-text">
+                <div class="icon">
+                  <svg preserveAspectRatio="xMidYMid meet" focusable="false" role="img" aria-hidden="true" viewBox="0 0 24 24" style="fill: var(--state-icon-color); vertical-align: sub;">
+                    <g>
+                      <path class="primary-path" d="${mdiThermometerLines}" />
+                    </g>
+                  </svg>
+                </div>
+                <div class="effects">${localize('common.di')}: ${DI} - ${localize('states.di.'+[DIeffects])}</div>
               </div>
               <div class="color-range-container">
                 <div class="color-range-gradient" style="background: linear-gradient(90deg,rgb(5, 112, 176) 0%,rgb(116, 169, 207)12%,rgb(189, 201, 225) 32%,rgb(241, 238, 246) 44%,rgb(254, 240, 217) 56%,rgb(253, 204, 138) 68%,rgb(252, 141, 89) 80%,rgb(227, 74, 51) 88%,rgb(179, 0, 0) 100%);" >
-                    <li  class="value-box" style="margin-left: max(0%,calc(${this.calcRange(0,100,8,34,DI)}% - 46px))">${DI}</li>
+                    <li class="value-box" style="margin-left: max(0%,calc(${this.calcRange(0,100,8,34,DI)}% - 46px))">${DI}</li>
                 </div>
               </div>
-
             </div>
 
           </ha-card>
@@ -198,48 +270,82 @@ class ComfortableEnvironmentCard extends LitElement {
     } else {
         return html`
           ${this.renderStyle()}
-          <ha-card .header="${this.config.room_name}">
+          <ha-card tabindex="0">
 
-              <div id="card" style="filter: saturate(100%");>
-
-                <div class="comfort-env-text" >
-                  <div>${localize('common.temperature')}: ${tempSensorStatus}${tempSensorUnit}</div>
-                  <div>${localize('common.humidity')}: ${humSensorStatus}%</div>
-                </div>
-
-                <div class="comfort-env-text" >
-                  <div>${localize('common.hi')}: ${HI}${tempSensorUnit} - ${localize('states.hi.'+[HIeffects])}</div>
-                </div>
-                <div class="color-range-container">
-                  <div class="color-range-gradient" style="background: linear-gradient(90deg, rgb(254, 240, 217) 0%, rgb(253, 204, 138) 28%, rgb(252, 141, 89) 42%, rgb(227, 74, 51) 66%, rgb(179, 0, 0) 100%);" >
-                      <li  class="value-box" style="margin-left: max(0%,calc(${this.calcRange(0,100,tempSensorUnitInF?76:23,tempSensorUnitInF?132:57,HI)}% - 46px))">${HI}</li>
-                  </div>
-                </div>
-
-                <div class="comfort-env-text" >
-                  <div>${localize('common.di')}: ${DI} - ${localize('states.di.'+[DIeffects])}</div>
-                </div>
-                <div class="color-range-container">
-                  <div class="color-range-gradient" style="background: linear-gradient(90deg,rgb(5, 112, 176) 0%,rgb(116, 169, 207)12%,rgb(189, 201, 225) 32%,rgb(241, 238, 246) 44%,rgb(254, 240, 217) 56%,rgb(253, 204, 138) 68%,rgb(252, 141, 89) 80%,rgb(227, 74, 51) 88%,rgb(179, 0, 0) 100%);" >
-                      <li  class="value-box" style="margin-left: max(0%,calc(${this.calcRange(0,100,8,34,DI)}% - 46px))">${DI}</li>
-                  </div>
-                </div>
-
+            <div class="header">
+              <div class="name">
+                ${this.config.room_name}
               </div>
+              <div class="header_icons">
+                <div class="temp">
+                  ${tempSensorStatus}${tempSensorUnit}
+                  <div class="icon">
+                    <svg preserveAspectRatio="xMidYMid meet" focusable="false" role="img" aria-hidden="true" viewBox="0 0 24 24" style="fill: var(--state-icon-color); vertical-align: sub;">
+                      <g>
+                        <path class="primary-path" d="${mdiThermometer}" />
+                      </g>
+                    </svg>
+                  </div>
+                </div>
+                <div class="hum">
+                  ${humSensorStatus}%
+                  <div class="icon">
+                    <svg preserveAspectRatio="xMidYMid meet" focusable="false" role="img" aria-hidden="true" viewBox="0 0 24 24" style="fill: var(--state-icon-color); vertical-align: sub;">
+                      <g>
+                        <path class="primary-path" d="${mdiWaterPercent}" />
+                      </g>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="info">
+              <div class="comfort-env-text">
+                <div class="icon">
+                  <svg preserveAspectRatio="xMidYMid meet" focusable="false" role="img" aria-hidden="true" viewBox="0 0 24 24" style="fill: var(--state-icon-color); vertical-align: sub;">
+                    <g>
+                      <path class="primary-path" d="${mdiSunThermometer}" />
+                    </g>
+                  </svg>
+                </div>
+                <div class="effects">${localize('common.hi')}: ${HI}${tempSensorUnit} - ${localize('states.hi.'+[HIeffects])}</div>
+              </div>
+              <div class="color-range-container">
+                <div class="color-range-gradient" style="background: linear-gradient(90deg, rgb(254, 240, 217) 0%, rgb(253, 204, 138) 28%, rgb(252, 141, 89) 42%, rgb(227, 74, 51) 66%, rgb(179, 0, 0) 100%);" >
+                    <li class="value-box" style="margin-left: max(0%,calc(${this.calcRange(0,100,tempSensorUnitInF?76:23,tempSensorUnitInF?132:57,HI)}% - 46px))">${HI}</li>
+                </div>
+              </div>
+              <div class="comfort-env-text">
+                <div class="icon">
+                  <svg preserveAspectRatio="xMidYMid meet" focusable="false" role="img" aria-hidden="true" viewBox="0 0 24 24" style="fill: var(--state-icon-color); vertical-align: sub;">
+                    <g>
+                      <path class="primary-path" d="${mdiThermometerLines}" />
+                    </g>
+                  </svg>
+                </div>
+                <div class="effects">${localize('common.di')}: ${DI} - ${localize('states.di.'+[DIeffects])}</div>
+              </div>
+              <div class="color-range-container">
+                <div class="color-range-gradient" style="background: linear-gradient(90deg,rgb(5, 112, 176) 0%,rgb(116, 169, 207)12%,rgb(189, 201, 225) 32%,rgb(241, 238, 246) 44%,rgb(254, 240, 217) 56%,rgb(253, 204, 138) 68%,rgb(252, 141, 89) 80%,rgb(227, 74, 51) 88%,rgb(179, 0, 0) 100%);" >
+                    <li class="value-box" style="margin-left: max(0%,calc(${this.calcRange(0,100,8,34,DI)}% - 46px))">${DI}</li>
+                </div>
+              </div>
+            </div>
 
           </ha-card>
         `;
     }
   }
 
-    protected calcRange(target_start: number, target_end: number, current_start: number, current_end: number, value: number): number {
+  protected calcRange(target_start: number, target_end: number, current_start: number, current_end: number, value: number): number {
     const value_target = Number(target_start + ((target_end - target_start) / (current_end - current_start)) * (value - current_start));
     if (value_target > 100) {
-        return 100;
+      return 100;
     } else if (value_target < 0) {
-        return 0;
+      return 0;
     } else {
-        return value_target;
+      return value_target;
     }
   }
 
@@ -275,9 +381,36 @@ class ComfortableEnvironmentCard extends LitElement {
             text-shadow:-1px 2px 4px rgba(0,0,0,.5),1px 1px 3px rgba(0,0,0,.5);
         }
        .comfort-env-text{
-          margin:0 10px 0;
-          padding:10px 0 5px;
-          text-align:left;
+            margin:0 10px 0;
+            padding:5px 0 5px;
+            text-align:left;
+        }
+        .info {
+            margin-top: -4px;
+        }
+        .effects {
+            display: inline;
+        }
+        .header {
+            display: flex;
+            padding: 8px 10px 0px;
+            justify-content: space-between;
+            line-height: 40px;
+            font-weight: 500;
+        }
+        .header > .name {
+            font-size: 20px;
+        }
+        .header > .temp, .header > .hum {
+            font-size: 14px;
+        }
+        .header_icons {
+            display: flex;
+        }
+        .icon {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
         }
       </style>
     `;

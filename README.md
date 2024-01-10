@@ -42,10 +42,10 @@ This card is available in the following languages:
 English (default) - by [@argaar](https://github.com/argaar)
 French - by [@GaPhi](https://github.com/GaPhi)
 Italian - by [@argaar](https://github.com/argaar)
+Portuguese - by [@FragMenthor](https://github.com/FragMenthor)
 Russian - by [@kai-zer-ru](https://github.com/kai-zer-ru)
 Slovak - by [@misa1515](https://github.com/misa1515)
 Spanish - by [@ale87jan](https://github.com/ale87jan)
-Portuguese - by [@FragMenthor](https://github.com/FragMenthor)
 
 [commits-shield]: https://img.shields.io/github/commit-activity/y/argaar/comfortable-environment-card.svg?style=for-the-badge
 [commits]: https://github.com/argaar/comfortable-environment-card/commits/master

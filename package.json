@@ -1,6 +1,6 @@
 {
   "name": "comfortable-environment-card",
-  "version": "1.4.3",
+  "version": "1.5.0",
   "description": "Lovelace comfortable-environment-card",
   "keywords": [
     "home-assistant",
@@ -29,6 +29,7 @@
     "@material/mwc-select": "^0.25.3",
     "@material/mwc-switch": "^0.25.3",
     "@material/mwc-textfield": "^0.25.3",
+    "@mdi/js": "^7.4.47",
     "custom-card-helpers": "^1.7.2",
     "home-assistant-js-websocket": "^5.11.1",
     "lit": "^2.0.0"
