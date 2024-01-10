@@ -1,0 +1,37 @@
+{
+  "common": {
+    "version": "Versão",
+    "description": "Um cartão para mostrar informação sobre Índice de Calor e/ou Índice de Desconforto com base na temperatura e humidade de uma divisão!",
+    "invalid_configuration": "A configuração do cartão é inválido ou não existe, por favor verifique!",
+    "temperature": "Temperatura",
+    "humidity": "Humidade",
+    "hi": "Índice de Calor",
+    "di": "Índice de Desconforto"
+  },
+  "configurator": {
+      "room_name": "Nome da Divisão",
+      "temp_sensor": "Sensor de Temperatura",
+      "hum_sensor": "Sensor de Humidade",
+      "show_index": "Escolha qual(ais) os índices a mostrar"
+  },
+  "states": {
+    "hi": {
+      "0": "Bom",
+      "1": "Cautela",
+      "2": "Extrema Cautela",
+      "3": "Perigo",
+      "4": "Perigo Extremo"
+    },
+    "di" : {
+      "0": "Extremamente desconfortável",
+      "1": "Moderadamente desconfortável",
+      "2": "Relativamente confortável",
+      "3": "Confortável",
+      "4": "Menos de 50% da população sente desconforto",
+      "5": "Mais de 50% da população sente desconforto",
+      "6": "A maioria da população sente desconforto",
+      "7": "Stress severo em toda a população",
+      "8": "Estado de emergência médica"
+    }
+  }
+}
