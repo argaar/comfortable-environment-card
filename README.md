@@ -46,6 +46,7 @@ Portuguese - by [@FragMenthor](https://github.com/FragMenthor)
 Russian - by [@kai-zer-ru](https://github.com/kai-zer-ru)
 Slovak - by [@misa1515](https://github.com/misa1515)
 Spanish - by [@ale87jan](https://github.com/ale87jan)
+Ukrainian - by [@rkoptev](https://github.com/rkoptev)
 
 [commits-shield]: https://img.shields.io/github/commit-activity/y/argaar/comfortable-environment-card.svg?style=for-the-badge
 [commits]: https://github.com/argaar/comfortable-environment-card/commits/master
