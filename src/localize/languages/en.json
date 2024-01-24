@@ -12,7 +12,9 @@
       "room_name": "Room Name",
       "temp_sensor": "Temperature sensor",
       "hum_sensor": "Humidity sensor",
-      "show_index": "Choose which index you want to show"
+      "wind_sensor": "Wind Sensor",
+      "show_index": "Choose which index you want to show",
+      "use_at": "Use AT instead of HI"
   },
   "states": {
     "hi": {

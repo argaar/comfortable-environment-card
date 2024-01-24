@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { LitElement, html, TemplateResult } from 'lit';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { customElement, property, state } from 'lit/decorators';
 import {
   HomeAssistant,
@@ -9,7 +10,9 @@ import {
   mdiSunThermometer,
   mdiThermometer,
   mdiThermometerLines,
-  mdiWaterPercent
+  mdiWaterPercent,
+  mdiWeatherWindy,
+  mdiWindsock
 } from '@mdi/js';
 
 import type { ComfortableEnvironmentCardConfig } from './types';
@@ -31,18 +34,33 @@ console.info(
 });
 
 @customElement('comfortable-environment-card')
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 class ComfortableEnvironmentCard extends LitElement {
 
   public getCardSize(): number {
     return 3;
   }
 
+  // Temperature Conversion
   public toCelsius(tValue: number): number {
     return (tValue - 32.0) * 5.0 / 9.0 
   }
-  
+
   public toFahrenheit(tValue: number): number {
     return tValue * 9.0 / 5.0 + 32.0;
+  }
+
+  // Speed Conversion
+  public kmh2ms(tValue: number): number {
+    return tValue / 3.6;
+  }
+
+  public mph2ms(tValue: number): number {
+    return tValue / 2.237;
+  }
+
+  public knots2ms(tValue: number): number {
+    return tValue / 1.9438;
   }
 
   @property({ attribute: false }) public hass!: HomeAssistant;
@@ -65,19 +83,18 @@ class ComfortableEnvironmentCard extends LitElement {
   }
 
   public static getStubConfig(): Record<string, unknown> {
-    return { name: localize('configurator.room_name'), temperature_sensor: "sensor.room_temperature", humidity_sensor: "sensor.room_humidity", show_index: "ALL" };
+    return { 
+      name: localize('configurator.room_name'),
+      temperature_sensor: "sensor.room_temperature",
+      humidity_sensor: "sensor.room_humidity",
+      wind_sensor: "sensor.room_wind",
+      show_index: "ALL" };
   }
 
   protected render(): TemplateResult | void {
     if (!this.config || !this.hass) {
       return html``;
     }
-
-    const tempSensorStatus = Number(this.hass.states[this.config.temperature_sensor!].state);
-    const humSensorStatus = Number(this.hass.states[this.config.humidity_sensor!].state);
-    const tempSensorUnit = this.hass.states[this.config.temperature_sensor!].attributes.unit_of_measurement
-    const tempSensorUnitInF = this.hass.states[this.config.temperature_sensor!].attributes.unit_of_measurement==='°F'?true:false
-    const showIndex = this.config.show_index
 
     //Heat Index Equation and constants from https://www.wpc.ncep.noaa.gov/html/heatindex_equation.shtml
     //  The computation of the heat index is a refinement of a result obtained by multiple regression analysis carried out by Lans P. Rothfusz and described in a 1990 National Weather Service (NWS) Technical Attachment (SR 90-23).  The regression equation of Rothfusz is
@@ -93,8 +110,26 @@ class ComfortableEnvironmentCard extends LitElement {
     //  In practice, the simple formula is computed first and the result averaged with the temperature. If this heat index value is 80 degrees F or higher, the full regression equation along with any adjustment as described above is applied.
     //  The Rothfusz regression is not valid for extreme temperature and relative humidity conditions beyond the range of data considered by Steadman.
 
+    //Discomfort Index is calculated based on the original paper published by 
+    // also it has been added some valued and description for DI<21 that was never considered in the original study
+
+    //Australian Apparent Temperature (aka: "feels-like") is computed from the formula published in https://en.wikipedia.org/wiki/Wind_chill#Australian_apparent_temperature
+    // due to the fact that it consider a lot the humidity, probably is better designed to suits the "feels-like" temperature
+
+    const tempSensorStatus = Number(this.hass.states[this.config.temperature_sensor].state)
+    const humSensorStatus = Number(this.hass.states[this.config.humidity_sensor].state)
+    const useAT = Boolean(this.config.use_at)
+    const windSensorStatus = this.config.wind_sensor!=undefined?Number(this.hass.states[this.config.wind_sensor].state):0
+    const tempSensorUnit = this.hass.states[this.config.temperature_sensor].attributes.unit_of_measurement
+    const windSensorUnit = this.config.wind_sensor!=undefined?this.hass.states[this.config.wind_sensor].attributes.unit_of_measurement:''
+    const tempSensorUnitInF = this.hass.states[this.config.temperature_sensor].attributes.unit_of_measurement==='°F'
+    const showIndex = this.config.show_index
+
+    const tempCelsiusValue = tempSensorUnitInF ? this.toCelsius(tempSensorStatus) : tempSensorStatus
+    const tempFarenheitValue = tempSensorUnitInF ? tempSensorStatus : this.toFahrenheit(tempSensorStatus)
+
     // Compute HI using Farenheit
-    const T = tempSensorUnitInF ? tempSensorStatus : this.toFahrenheit(tempSensorStatus)
+    const T = tempFarenheitValue
     const RH = humSensorStatus
     let HI = 0.5 * (T + 61.0 + ((T-68.0)*1.2) + (RH*0.094))
     if (HI >= 80.0) {
@@ -105,6 +140,22 @@ class ComfortableEnvironmentCard extends LitElement {
         HI = HI + ((RH - 85.0) / 10.0) * ((87.0 - T) / 5.0)
       }
     }
+
+    // Compute AT using Celsius and Wind Speed in m/s
+    let windSpeed = 0
+    if (windSensorUnit == 'm/s') {
+      windSpeed = windSensorStatus
+    } else if (windSensorUnit == 'km/h') {
+      windSpeed = this.kmh2ms(windSensorStatus)
+    } else if (windSensorUnit == 'mph') {
+      windSpeed = this.mph2ms(windSensorStatus)
+    } else if (windSensorUnit == 'knots') {
+      windSpeed = this.knots2ms(windSensorStatus)
+    }
+    const AT = useAT?parseFloat((tempCelsiusValue + (0.33 * humSensorStatus / 100 * 6.105 * Math.exp((17.27 * tempCelsiusValue / (237.7 + tempCelsiusValue)))) - 0.7 * windSpeed - 4.0).toFixed(2)):0
+
+    // If the user opted to use AT instead of HI, pass the new calculated value to HI and show it
+    HI = (useAT&&this.config.wind_sensor!='')?this.toFahrenheit(AT):HI
 
     let HIeffects = 0;
     switch(true) {
@@ -126,11 +177,8 @@ class ComfortableEnvironmentCard extends LitElement {
     HI = tempSensorUnitInF ? HI : this.toCelsius(HI)
     HI = parseFloat(HI.toFixed(2))
 
-
     // Compute DI using Celsius
-    const temperatureValue = tempSensorUnitInF ? this.toCelsius(tempSensorStatus) : tempSensorStatus
-
-    const DI = parseFloat((temperatureValue - 0.55*(1 - 0.01*humSensorStatus) * (temperatureValue - 14.5)).toFixed(2))
+    const DI = parseFloat((tempCelsiusValue - 0.55 * (1 - 0.01 * humSensorStatus) * (tempCelsiusValue - 14.5)).toFixed(2))
 
     let DIeffects = 0;
 
@@ -161,181 +209,92 @@ class ComfortableEnvironmentCard extends LitElement {
             break;
     }
 
-    if (showIndex == 'HI') {
-        return html`
-          ${this.renderStyle()}
-          <ha-card tabindex="0">
+    return html`
+      ${this.renderStyle()}
+      <ha-card tabindex="0">
 
-            <div class="header">
-              <div class="name">
-                ${this.config.room_name}
-              </div>
-              <div class="header_icons">
-                <div class="temp">
-                  ${tempSensorStatus}${tempSensorUnit}
-                  <div class="icon">
-                    <svg preserveAspectRatio="xMidYMid meet" focusable="false" role="img" aria-hidden="true" viewBox="0 0 24 24" style="fill: var(--state-icon-color); vertical-align: sub;">
-                      <g>
-                        <path class="primary-path" d="${mdiThermometer}" />
-                      </g>
-                    </svg>
-                  </div>
-                </div>
-                <div class="hum">
-                  ${humSensorStatus}%
-                  <div class="icon">
-                    <svg preserveAspectRatio="xMidYMid meet" focusable="false" role="img" aria-hidden="true" viewBox="0 0 24 24" style="fill: var(--state-icon-color); vertical-align: sub;">
-                      <g>
-                        <path class="primary-path" d="${mdiWaterPercent}" />
-                      </g>
-                    </svg>
-                  </div>
-                </div>
+        <div class="header">
+          <div class="name">
+            ${this.config.room_name}
+          </div>
+          <div class="header_icons">
+            <div class="temp">
+              ${tempSensorStatus}${tempSensorUnit}
+              <div class="icon">
+                <svg preserveAspectRatio="xMidYMid meet" focusable="false" role="img" aria-hidden="true" viewBox="0 0 24 24" style="fill: var(--state-icon-color); vertical-align: sub;">
+                  <g>
+                    <path class="primary-path" d="${mdiThermometer}" />
+                  </g>
+                </svg>
               </div>
             </div>
-
-            <div class="info">
-              <div class="comfort-env-text">
+            <div class="hum">
+              ${humSensorStatus}%
+              <div class="icon">
+                <svg preserveAspectRatio="xMidYMid meet" focusable="false" role="img" aria-hidden="true" viewBox="0 0 24 24" style="fill: var(--state-icon-color); vertical-align: sub;">
+                  <g>
+                    <path class="primary-path" d="${mdiWaterPercent}" />
+                  </g>
+                </svg>
+              </div>
+            </div>
+            ${(this.config.wind_sensor!=undefined)?html`
+              <div class="wind">
+                ${windSensorStatus}${windSensorUnit}
                 <div class="icon">
                   <svg preserveAspectRatio="xMidYMid meet" focusable="false" role="img" aria-hidden="true" viewBox="0 0 24 24" style="fill: var(--state-icon-color); vertical-align: sub;">
                     <g>
-                      <path class="primary-path" d="${mdiSunThermometer}" />
+                      <path class="primary-path" d="${mdiWindsock}" />
                     </g>
                   </svg>
                 </div>
-                <div class="effects">${localize('common.hi')}: ${HI}${tempSensorUnit} - ${localize('states.hi.'+[HIeffects])}</div>
               </div>
-              <div class="color-range-container">
-                <div class="color-range-gradient" style="background: linear-gradient(90deg, rgb(254, 240, 217) 0%, rgb(253, 204, 138) 28%, rgb(252, 141, 89) 42%, rgb(227, 74, 51) 66%, rgb(179, 0, 0) 100%);" >
-                    <li class="value-box" style="margin-left: max(0%,calc(${this.calcRange(0,100,tempSensorUnitInF?76:23,tempSensorUnitInF?132:57,HI)}% - 46px))">${HI}</li>
-                </div>
+            `:``}
+          </div>
+        </div>
+
+        <div class="info">
+ 
+          ${(showIndex == 'ALL' || showIndex == 'HI')?html`
+            <div class="comfort-env-text">
+              <div class="icon">
+                <svg preserveAspectRatio="xMidYMid meet" focusable="false" role="img" aria-hidden="true" viewBox="0 0 24 24" style="fill: var(--state-icon-color); vertical-align: sub;">
+                  <g>
+                    <path class="primary-path" d="${(useAT&&this.config.wind_sensor)?mdiWeatherWindy:mdiSunThermometer}" />
+                  </g>
+                </svg>
+              </div>
+              <div class="effects">${localize('common.hi')}: ${HI}${tempSensorUnit} - ${localize('states.hi.'+[HIeffects])}</div>
+            </div>
+            <div class="color-range-container">
+              <div class="color-range-gradient" style="background: linear-gradient(90deg, rgb(254, 240, 217) 0%, rgb(253, 204, 138) 28%, rgb(252, 141, 89) 42%, rgb(227, 74, 51) 66%, rgb(179, 0, 0) 100%);" >
+                  <li class="value-box" style="margin-left: max(0%,calc(${this.calcRange(0,100,tempSensorUnitInF?76:23,tempSensorUnitInF?132:57,HI)}% - 46px))">${HI}</li>
               </div>
             </div>
+          `:``}
 
-          </ha-card>
-        `;
-    } else if (showIndex == 'DI') {
-        return html`
-          ${this.renderStyle()}
-          <ha-card tabindex="0">
-
-            <div class="header">
-              <div class="name">
-                ${this.config.room_name}
+          ${(showIndex == 'ALL' || showIndex == 'DI')?html`
+            <div class="comfort-env-text">
+              <div class="icon">
+                <svg preserveAspectRatio="xMidYMid meet" focusable="false" role="img" aria-hidden="true" viewBox="0 0 24 24" style="fill: var(--state-icon-color); vertical-align: sub;">
+                  <g>
+                    <path class="primary-path" d="${mdiThermometerLines}" />
+                  </g>
+                </svg>
               </div>
-              <div class="header_icons">
-                <div class="temp">
-                  ${tempSensorStatus}${tempSensorUnit}
-                  <div class="icon">
-                    <svg preserveAspectRatio="xMidYMid meet" focusable="false" role="img" aria-hidden="true" viewBox="0 0 24 24" style="fill: var(--state-icon-color); vertical-align: sub;">
-                      <g>
-                        <path class="primary-path" d="${mdiThermometer}" />
-                      </g>
-                    </svg>
-                  </div>
-                </div>
-                <div class="hum">
-                  ${humSensorStatus}%
-                  <div class="icon">
-                    <svg preserveAspectRatio="xMidYMid meet" focusable="false" role="img" aria-hidden="true" viewBox="0 0 24 24" style="fill: var(--state-icon-color); vertical-align: sub;">
-                      <g>
-                        <path class="primary-path" d="${mdiWaterPercent}" />
-                      </g>
-                    </svg>
-                  </div>
-                </div>
+              <div class="effects">${localize('common.di')}: ${DI} - ${localize('states.di.'+[DIeffects])}</div>
+            </div>
+            <div class="color-range-container">
+              <div class="color-range-gradient" style="background: linear-gradient(90deg,rgb(5, 112, 176) 0%,rgb(116, 169, 207)12%,rgb(189, 201, 225) 32%,rgb(241, 238, 246) 44%,rgb(254, 240, 217) 56%,rgb(253, 204, 138) 68%,rgb(252, 141, 89) 80%,rgb(227, 74, 51) 88%,rgb(179, 0, 0) 100%);" >
+                  <li class="value-box" style="margin-left: max(0%,calc(${this.calcRange(0,100,8,34,DI)}% - 46px))">${DI}</li>
               </div>
             </div>
+          `:``}
 
-            <div class="info">
-              <div class="comfort-env-text">
-                <div class="icon">
-                  <svg preserveAspectRatio="xMidYMid meet" focusable="false" role="img" aria-hidden="true" viewBox="0 0 24 24" style="fill: var(--state-icon-color); vertical-align: sub;">
-                    <g>
-                      <path class="primary-path" d="${mdiThermometerLines}" />
-                    </g>
-                  </svg>
-                </div>
-                <div class="effects">${localize('common.di')}: ${DI} - ${localize('states.di.'+[DIeffects])}</div>
-              </div>
-              <div class="color-range-container">
-                <div class="color-range-gradient" style="background: linear-gradient(90deg,rgb(5, 112, 176) 0%,rgb(116, 169, 207)12%,rgb(189, 201, 225) 32%,rgb(241, 238, 246) 44%,rgb(254, 240, 217) 56%,rgb(253, 204, 138) 68%,rgb(252, 141, 89) 80%,rgb(227, 74, 51) 88%,rgb(179, 0, 0) 100%);" >
-                    <li class="value-box" style="margin-left: max(0%,calc(${this.calcRange(0,100,8,34,DI)}% - 46px))">${DI}</li>
-                </div>
-              </div>
-            </div>
+        </div>
 
-          </ha-card>
-        `;
-    } else {
-        return html`
-          ${this.renderStyle()}
-          <ha-card tabindex="0">
-
-            <div class="header">
-              <div class="name">
-                ${this.config.room_name}
-              </div>
-              <div class="header_icons">
-                <div class="temp">
-                  ${tempSensorStatus}${tempSensorUnit}
-                  <div class="icon">
-                    <svg preserveAspectRatio="xMidYMid meet" focusable="false" role="img" aria-hidden="true" viewBox="0 0 24 24" style="fill: var(--state-icon-color); vertical-align: sub;">
-                      <g>
-                        <path class="primary-path" d="${mdiThermometer}" />
-                      </g>
-                    </svg>
-                  </div>
-                </div>
-                <div class="hum">
-                  ${humSensorStatus}%
-                  <div class="icon">
-                    <svg preserveAspectRatio="xMidYMid meet" focusable="false" role="img" aria-hidden="true" viewBox="0 0 24 24" style="fill: var(--state-icon-color); vertical-align: sub;">
-                      <g>
-                        <path class="primary-path" d="${mdiWaterPercent}" />
-                      </g>
-                    </svg>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="info">
-              <div class="comfort-env-text">
-                <div class="icon">
-                  <svg preserveAspectRatio="xMidYMid meet" focusable="false" role="img" aria-hidden="true" viewBox="0 0 24 24" style="fill: var(--state-icon-color); vertical-align: sub;">
-                    <g>
-                      <path class="primary-path" d="${mdiSunThermometer}" />
-                    </g>
-                  </svg>
-                </div>
-                <div class="effects">${localize('common.hi')}: ${HI}${tempSensorUnit} - ${localize('states.hi.'+[HIeffects])}</div>
-              </div>
-              <div class="color-range-container">
-                <div class="color-range-gradient" style="background: linear-gradient(90deg, rgb(254, 240, 217) 0%, rgb(253, 204, 138) 28%, rgb(252, 141, 89) 42%, rgb(227, 74, 51) 66%, rgb(179, 0, 0) 100%);" >
-                    <li class="value-box" style="margin-left: max(0%,calc(${this.calcRange(0,100,tempSensorUnitInF?76:23,tempSensorUnitInF?132:57,HI)}% - 46px))">${HI}</li>
-                </div>
-              </div>
-              <div class="comfort-env-text">
-                <div class="icon">
-                  <svg preserveAspectRatio="xMidYMid meet" focusable="false" role="img" aria-hidden="true" viewBox="0 0 24 24" style="fill: var(--state-icon-color); vertical-align: sub;">
-                    <g>
-                      <path class="primary-path" d="${mdiThermometerLines}" />
-                    </g>
-                  </svg>
-                </div>
-                <div class="effects">${localize('common.di')}: ${DI} - ${localize('states.di.'+[DIeffects])}</div>
-              </div>
-              <div class="color-range-container">
-                <div class="color-range-gradient" style="background: linear-gradient(90deg,rgb(5, 112, 176) 0%,rgb(116, 169, 207)12%,rgb(189, 201, 225) 32%,rgb(241, 238, 246) 44%,rgb(254, 240, 217) 56%,rgb(253, 204, 138) 68%,rgb(252, 141, 89) 80%,rgb(227, 74, 51) 88%,rgb(179, 0, 0) 100%);" >
-                    <li class="value-box" style="margin-left: max(0%,calc(${this.calcRange(0,100,8,34,DI)}% - 46px))">${DI}</li>
-                </div>
-              </div>
-            </div>
-
-          </ha-card>
-        `;
-    }
+      </ha-card>
+    `;
   }
 
   protected calcRange(target_start: number, target_end: number, current_start: number, current_end: number, value: number): number {
@@ -355,7 +314,7 @@ class ComfortableEnvironmentCard extends LitElement {
         .color-range-container{
             display:grid;
             grid-template-columns:50px auto 100px auto 50px;
-            margin-bottom: 10px;
+            margin-bottom: 1%;
         }
         .color-range-gradient{
             grid-column:1/6;
@@ -387,21 +346,25 @@ class ComfortableEnvironmentCard extends LitElement {
         }
         .info {
             margin-top: -4px;
+            margin-bottom: 2%;
         }
         .effects {
             display: inline;
         }
         .header {
             display: flex;
-            padding: 8px 10px 0px;
+            padding: 0 2% 0;
             justify-content: space-between;
             line-height: 40px;
             font-weight: 500;
+            margin-top: 1%;
         }
         .header > .name {
             font-size: 20px;
         }
-        .header > .temp, .header > .hum {
+        .header_icons > .temp,
+        .header_icons > .hum,
+        .header_icons > .wind {
             font-size: 14px;
         }
         .header_icons {

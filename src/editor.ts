@@ -4,14 +4,17 @@ import { HomeAssistant, fireEvent, LovelaceCardEditor } from 'custom-card-helper
 
 import { ScopedRegistryHost } from '@lit-labs/scoped-registry-mixin';
 import { ComfortableEnvironmentCardConfig } from './types';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { customElement, property, state } from 'lit/decorators';
 import { formfieldDefinition } from '../elements/formfield';
 import { selectDefinition } from '../elements/select';
+import { switchDefinition } from '../elements/switch';
 import { textfieldDefinition } from '../elements/textfield';
 
 import { localize } from './localize/localize';
 
 @customElement('comfortable-environment-card-editor')
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export class ComfortableEnvironmentCardEditor extends ScopedRegistryHost(LitElement) implements LovelaceCardEditor {
 
   @property({ attribute: false }) public hass?: HomeAssistant;
@@ -19,9 +22,10 @@ export class ComfortableEnvironmentCardEditor extends ScopedRegistryHost(LitElem
   @state() private _config?: ComfortableEnvironmentCardConfig;
 
   static elementDefinitions = {
-    ...textfieldDefinition,
-    ...selectDefinition,
     ...formfieldDefinition,
+    ...selectDefinition,
+    ...switchDefinition,
+    ...textfieldDefinition
   };
 
   public setConfig(config: ComfortableEnvironmentCardConfig): void {
@@ -29,23 +33,27 @@ export class ComfortableEnvironmentCardEditor extends ScopedRegistryHost(LitElem
   }
 
   get _room_name(): string {
-    return this._config?.room_name || "";
+    return this._config?.room_name ?? "";
   }
 
   get _temperature_sensor(): string {
-    return this._config?.temperature_sensor || "";
+    return this._config?.temperature_sensor ?? "";
   }
 
   get _humidity_sensor(): string {
-    return this._config?.humidity_sensor || "";
+    return this._config?.humidity_sensor ?? "";
   }
 
-  get _degree_fahrenheit(): boolean {
-    return this._config?.degree_fahrenheit || false;
+  get _wind_sensor(): string {
+    return this._config?.wind_sensor ?? "";
+  }
+
+  get _use_at(): boolean {
+    return this._config?.use_at ?? false;
   }
 
   get _show_index(): string {
-      return this._config?.show_index || "ALL";
+      return this._config?.show_index ?? "ALL";
   }
 
   protected render(): TemplateResult | void {
@@ -55,15 +63,21 @@ export class ComfortableEnvironmentCardEditor extends ScopedRegistryHost(LitElem
 
     const hass_devices = this.hass.states
     const tempSensors: string[] = [];
-    Object.keys(hass_devices).filter(eid => eid.substr(0, eid.indexOf('.')) === 'sensor').sort().forEach(function (k) {
+    Object.keys(hass_devices).filter(eid => eid.substr(0, eid.indexOf('.')) === 'sensor').sort((a, b) => a.localeCompare(b)).forEach(function (k) {
         if (hass_devices[k].attributes.device_class === 'temperature') {
             tempSensors.push(k)
         }
     })
     const humSensors: string[] = [];
-    Object.keys(hass_devices).filter(eid => eid.substr(0, eid.indexOf('.')) === 'sensor').sort().forEach(function (k) {
+    Object.keys(hass_devices).filter(eid => eid.substr(0, eid.indexOf('.')) === 'sensor').sort((a, b) => a.localeCompare(b)).forEach(function (k) {
         if (hass_devices[k].attributes.device_class === 'humidity') {
             humSensors.push(k)
+        }
+    })
+    const windSensors: string[] = [];
+    Object.keys(hass_devices).filter(eid => eid.substr(0, eid.indexOf('.')) === 'sensor').sort((a, b) => a.localeCompare(b)).forEach(function (k) {
+        if (hass_devices[k].attributes.device_class === 'wind_speed') {
+            windSensors.push(k)
         }
     })
 
@@ -106,6 +120,30 @@ export class ComfortableEnvironmentCardEditor extends ScopedRegistryHost(LitElem
       <mwc-select
         naturalMenuWidth
         fixedMenuPosition
+        label="${localize('configurator.wind_sensor')}"
+        .configValue=${'wind_sensor'}
+        .value=${this._wind_sensor}
+        @selected=${this._valueChanged}
+        @closed=${(ev) => ev.stopPropagation()}
+      >
+        ${windSensors.map((entity) => {
+          return html`<mwc-list-item .value=${entity}>${entity}</mwc-list-item>`;
+        })}
+      </mwc-select>
+
+      ${(this._wind_sensor != '')?html`
+      <mwc-formfield .label=${localize('configurator.use_at')}>
+        <mwc-switch
+          .checked=${this._use_at !== false}
+          .configValue=${'use_at'}
+          @change=${this._valueChanged}
+        ></mwc-switch>
+      </mwc-formfield>
+      `:``}
+
+      <mwc-select
+        naturalMenuWidth
+        fixedMenuPosition
         label="${localize('configurator.show_index')}"
         .configValue=${'show_index'}
         .value=${this._show_index}
@@ -127,7 +165,6 @@ export class ComfortableEnvironmentCardEditor extends ScopedRegistryHost(LitElem
       display: block;
     }
     mwc-formfield {
-      margin-top: 5%;
       padding-bottom: 8px;
     }
     mwc-switch {
