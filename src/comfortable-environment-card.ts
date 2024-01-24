@@ -346,7 +346,7 @@ class ComfortableEnvironmentCard extends LitElement {
         }
         .info {
             margin-top: -4px;
-            margin-bottom: 2%;
+            padding-bottom: 1%;
         }
         .effects {
             display: inline;
