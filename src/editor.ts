@@ -4,6 +4,7 @@ import { HomeAssistant, fireEvent, LovelaceCardEditor } from 'custom-card-helper
 
 import { ScopedRegistryHost } from '@lit-labs/scoped-registry-mixin';
 import { ComfortableEnvironmentCardConfig } from './types';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { customElement, property, state } from 'lit/decorators';
 import { formfieldDefinition } from '../elements/formfield';
 import { selectDefinition } from '../elements/select';
@@ -12,6 +13,7 @@ import { textfieldDefinition } from '../elements/textfield';
 import { localize } from './localize/localize';
 
 @customElement('comfortable-environment-card-editor')
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export class ComfortableEnvironmentCardEditor extends ScopedRegistryHost(LitElement) implements LovelaceCardEditor {
 
   @property({ attribute: false }) public hass?: HomeAssistant;
@@ -29,23 +31,23 @@ export class ComfortableEnvironmentCardEditor extends ScopedRegistryHost(LitElem
   }
 
   get _room_name(): string {
-    return this._config?.room_name || "";
+    return this._config?.room_name ?? "";
   }
 
   get _temperature_sensor(): string {
-    return this._config?.temperature_sensor || "";
+    return this._config?.temperature_sensor ?? "";
   }
 
   get _humidity_sensor(): string {
-    return this._config?.humidity_sensor || "";
+    return this._config?.humidity_sensor ?? "";
   }
 
   get _degree_fahrenheit(): boolean {
-    return this._config?.degree_fahrenheit || false;
+    return this._config?.degree_fahrenheit ?? false;
   }
 
   get _show_index(): string {
-      return this._config?.show_index || "ALL";
+      return this._config?.show_index ?? "ALL";
   }
 
   protected render(): TemplateResult | void {
@@ -55,13 +57,13 @@ export class ComfortableEnvironmentCardEditor extends ScopedRegistryHost(LitElem
 
     const hass_devices = this.hass.states
     const tempSensors: string[] = [];
-    Object.keys(hass_devices).filter(eid => eid.substr(0, eid.indexOf('.')) === 'sensor').sort().forEach(function (k) {
+    Object.keys(hass_devices).filter(eid => eid.startsWith('sensor', 0)).sort((a, b) => a.localeCompare(b)).forEach(function (k) {
         if (hass_devices[k].attributes.device_class === 'temperature') {
             tempSensors.push(k)
         }
     })
     const humSensors: string[] = [];
-    Object.keys(hass_devices).filter(eid => eid.substr(0, eid.indexOf('.')) === 'sensor').sort().forEach(function (k) {
+    Object.keys(hass_devices).filter(eid => eid.startsWith('sensor', 0)).sort((a, b) => a.localeCompare(b)).forEach(function (k) {
         if (hass_devices[k].attributes.device_class === 'humidity') {
             humSensors.push(k)
         }

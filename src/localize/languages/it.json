@@ -18,14 +18,14 @@
     "hi": {
       "0": "Ottima",
       "1": "Attenzione",
-      "2": "Estrema cautela",
+      "2": "Estrema Cautela",
       "3": "Pericolo",
       "4": "Pericolo Estremo"
     },
     "di" : {
       "0": "Sensazione estrema di disagio",
       "1": "Sensazione moderata di disagio",
-      "2": "Abbastanza confortevole",
+      "2": "Abbastanza Confortevole",
       "3": "Benessere",
       "4": "Meno del 50% della popolazione prova un leggero disagio",
       "5": "Oltre del 50% della popolazione prova un crescente disagio",

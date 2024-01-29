@@ -39,8 +39,10 @@ The temperature bar idea was inspired by @madmicio 's ph-meter-temperature card 
 
 This card is available in the following languages:
 
+German - by [@Andurilll](https://github.com/Andurilll)
 English (default) - by [@argaar](https://github.com/argaar)
 French - by [@GaPhi](https://github.com/GaPhi)
+Hungarian - by [@n0is3r](https://github.com/n0is3r)
 Italian - by [@argaar](https://github.com/argaar)
 Portuguese - by [@FragMenthor](https://github.com/FragMenthor)
 Russian - by [@kai-zer-ru](https://github.com/kai-zer-ru)
