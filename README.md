@@ -24,11 +24,42 @@ since even if the temperature seems to be ok, you could feel hot, too hot, cold,
 | room_name          | string  | **Optional** | Room name at top of the card                   |          |
 | temperature_sensor | string  | **Required** | Any "sensor" entity reporting temperature      |          |
 | humidity_sensor    | string  | **Required** | Any "sensor" entity reporting humidity         |          |
-| show_index         | string  | **Optional** | Choose index to show (ALL, HI, DI)             |          |
+| show_index         | string  | **Required** | Choose index to show (ALL, HI, DI)             |          |
 
 ## Screenshot
 
 ![card_screenshot](https://github.com/argaar/comfortable-environment-card/blob/main/screenshot.png "Card in action")
+
+## Known Issue
+
+The card editor has a filter to let user choose temperature and humidity sensors only, all other entities from HA are excluded from the selection
+Unfortunately if you have a sensor based on [Min/Max Helper](https://www.home-assistant.io/integrations/min_max/) (aka "Combine the state of..."),
+you won't find it in the dropdown because it lacks the correct device_class attribute (see [here](https://github.com/home-assistant/core/issues/76003) and [here](https://github.com/home-assistant/core/issues/78979))
+
+Don't worry! There are (at least) three workarounds:
+
+- Use a [Group Helper](https://www.home-assistant.io/integrations/group/#sensor-groups) instead, the result will be the same (you can group temp/hum sensors and calc the mean/median value as in Min/Max)
+
+- While you're in card editing mode, press on "SHOW CODE EDITOR" and write the
+
+    * temperature_sensor: sensor.my_temp_sensor
+
+  or
+
+    * humidity_sensor: sensor.my_hum_sensor
+
+  value by hand, you should see the card renders as soon as you write the sensor name
+
+- Go in the HA Developer Tools from the sidebar, then choose "States" and search for your Min/Max sensor
+  click on it and in the "State attribute" area, add the property
+
+    * device_class: temperature
+
+  or
+
+    * device_class: humidity
+
+  then press Set State, this attribute is valid only until the next restart but you need it just once in order to configure the card
 
 ## Credits
 
