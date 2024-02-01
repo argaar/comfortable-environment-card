@@ -30,7 +30,7 @@ since even if the temperature seems to be ok, you could feel hot, too hot, cold,
 
 ![card_screenshot](https://github.com/argaar/comfortable-environment-card/blob/main/screenshot.png "Card in action")
 
-## Known Issue
+## Known Issues
 
 The card editor has a filter to let user choose temperature and humidity sensors only, all other entities from HA are excluded from the selection
 Unfortunately if you have a sensor based on [Min/Max Helper](https://www.home-assistant.io/integrations/min_max/) (aka "Combine the state of..."),
