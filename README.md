@@ -80,6 +80,7 @@ Thanks to the people listed below, this card is available in the following langu
 * Slovak - by [@misa1515](https://github.com/misa1515)
 * Spanish - by [@ale87jan](https://github.com/ale87jan)
 * Ukrainian - by [@rkoptev](https://github.com/rkoptev)
+* Greek - by [@tzam](https://github.com/tzamer)
 
 [commits-shield]: https://img.shields.io/github/commit-activity/y/argaar/comfortable-environment-card.svg?style=for-the-badge
 [commits]: https://github.com/argaar/comfortable-environment-card/commits/master
