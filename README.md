@@ -73,6 +73,7 @@ Thanks to the people listed below, this card is available in the following langu
 * German - by [@Andurilll](https://github.com/Andurilll)
 * English (default) - by [@argaar](https://github.com/argaar)
 * French - by [@GaPhi](https://github.com/GaPhi)
+* Greek - by [@tzam](https://github.com/tzamer)
 * Hungarian - by [@n0is3r](https://github.com/n0is3r)
 * Italian - by [@argaar](https://github.com/argaar)
 * Portuguese - by [@FragMenthor](https://github.com/FragMenthor)
@@ -80,11 +81,10 @@ Thanks to the people listed below, this card is available in the following langu
 * Slovak - by [@misa1515](https://github.com/misa1515)
 * Spanish - by [@ale87jan](https://github.com/ale87jan)
 * Ukrainian - by [@rkoptev](https://github.com/rkoptev)
-* Greek - by [@tzam](https://github.com/tzamer)
 
 [commits-shield]: https://img.shields.io/github/commit-activity/y/argaar/comfortable-environment-card.svg?style=for-the-badge
 [commits]: https://github.com/argaar/comfortable-environment-card/commits/master
 [license-shield]: https://img.shields.io/github/license/argaar/comfortable-environment-card.svg?style=for-the-badge
-[maintenance-shield]: https://img.shields.io/maintenance/yes/2023.svg?style=for-the-badge
+[maintenance-shield]: https://img.shields.io/maintenance/yes/2024.svg?style=for-the-badge
 [releases-shield]: https://img.shields.io/github/release/argaar/comfortable-environment-card.svg?style=for-the-badge
 [releases]: https://github.com/argaar/comfortable-environment-card/releases
