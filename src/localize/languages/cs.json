@@ -1,0 +1,37 @@
+{
+  "common": {
+    "version": "Verze",
+    "description": "Karta zobrazjící informace o indexu nepohody a teploty, na základě teploty a vlhkosti v oblasti",
+    "invalid_configuration": "Konfigurace karty je neplatná nebo neexistuje, prosím překontrolujte ji!",
+    "temperature": "Teplota",
+    "humidity": "Vlhkost",
+    "hi": "Index teploty",
+    "di": "Index nepohody"
+  },
+  "configurator": {
+      "room_name": "Název oblasti",
+      "temp_sensor": "Senzor teploty",
+      "hum_sensor": "Senzor vlhkosti",
+      "show_index": "Vyberte, které indexy chcete zobrazit"
+  },
+  "states": {
+    "hi": {
+      "0": "Dobrý",
+      "1": "Opatrnost",
+      "2": "Extrémní opatrnost",
+      "3": "Nebezpečí",
+      "4": "Extrémní nebezpečí"
+    },
+    "di" : {
+      "0": "Extrémně nepříjemné",
+      "1": "Poměrně nepříjemné",
+      "2": "Relativně příjemné",
+      "3": "Příjemné",
+      "4": "Méně než 50% populace se cítí nepříjemně",
+      "5": "Více než 50% populace se cítí nepříjemně",
+      "6": "Většina populace se cítí nepříjemně",
+      "7": "Každý pociťuje silný stres",
+      "8": "Stav zdravotní nouze"
+    }
+  }
+}
