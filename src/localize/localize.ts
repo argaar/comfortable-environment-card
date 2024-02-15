@@ -9,7 +9,7 @@ import * as pt from "./languages/pt.json";
 import * as ru from "./languages/ru.json";
 import * as sk from "./languages/sk.json";
 import * as uk from "./languages/uk.json";
-
+import * as cs from "./languages/cs.json";
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const languages: any = {
   de: de,
@@ -23,6 +23,7 @@ const languages: any = {
   sk: sk,
   pt: pt,
   uk: uk,
+  cs: cs,
 };
 
 export function localize(string: string, search = '', replace = ''): string {
