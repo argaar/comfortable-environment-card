@@ -70,6 +70,7 @@ The temperature bar idea was inspired by @madmicio 's ph-meter-temperature card 
 
 Thanks to the people listed below, this card is available in the following languages:
 
+* Czech - by [@ElektronikCZ](https://github.com/ElektronikCZ)
 * German - by [@Andurilll](https://github.com/Andurilll)
 * English (default) - by [@argaar](https://github.com/argaar)
 * French - by [@GaPhi](https://github.com/GaPhi)
