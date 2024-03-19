@@ -21,10 +21,11 @@ since even if the temperature seems to be ok, you could feel hot, too hot, cold,
 | Name               | Type    | Requirement  | Description                                    | Default  |
 | ------------------ | ------- | ------------ | ---------------------------------------------- | -------- |
 | type               | string  | **Required** | `custom:comfortable-environment-card`          |          |
-| room_name          | string  | **Optional** | Room name at top of the card                   |          |
+| room_name          | string  | **Optional** | Room name at top of the card                   | ""       |
 | temperature_sensor | string  | **Required** | Any "sensor" entity reporting temperature      |          |
 | humidity_sensor    | string  | **Required** | Any "sensor" entity reporting humidity         |          |
-| show_index         | string  | **Required** | Choose index to show (ALL, HI, DI)             |          |
+| display_precision  | number  | **Required** | Numbers of decimals to show                    | 1        |
+| show_index         | string  | **Required** | Choose index to show (ALL, HI, DI)             | ALL      |
 
 ## Screenshot
 
@@ -71,6 +72,7 @@ The temperature bar idea was inspired by @madmicio 's ph-meter-temperature card 
 Thanks to the people listed below, this card is available in the following languages:
 
 * Czech - by [@ElektronikCZ](https://github.com/ElektronikCZ)
+* Dutch - by [@GHeiner](https://github.com/GHeiner)
 * German - by [@Andurilll](https://github.com/Andurilll)
 * English (default) - by [@argaar](https://github.com/argaar)
 * French - by [@GaPhi](https://github.com/GaPhi)

@@ -9,10 +9,10 @@
     "di": "Índice de Desconforto"
   },
   "configurator": {
-      "room_name": "Nome da Divisão",
-      "temp_sensor": "Sensor de Temperatura",
-      "hum_sensor": "Sensor de Humidade",
-      "show_index": "Escolha qual(ais) os índices a mostrar"
+    "room_name": "Nome da Divisão",
+    "temp_sensor": "Sensor de Temperatura",
+    "hum_sensor": "Sensor de Humidade",
+    "show_index": "Escolha qual(ais) os índices a mostrar"
   },
   "states": {
     "hi": {

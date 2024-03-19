@@ -9,10 +9,11 @@
     "di": "Indice di Thom"
   },
   "configurator": {
-      "room_name": "Nome Stanza",
-      "temp_sensor": "Sensore di temperatura",
-      "hum_sensor": "Sensore di umidità",
-      "show_index": "Scegli quale indice mostrare"
+    "room_name": "Nome Stanza",
+    "temp_sensor": "Sensore di temperatura",
+    "hum_sensor": "Sensore di umidità",
+    "show_index": "Scegli quale indice mostrare",
+    "display_precision": "Mostra N numeri dopo la virgola"
   },
   "states": {
     "hi": {

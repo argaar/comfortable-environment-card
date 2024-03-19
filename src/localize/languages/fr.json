@@ -9,10 +9,10 @@
     "di": "Index d'inconfort"
   },
   "configurator": {
-      "room_name": "Nom de la pièce",
-      "temp_sensor": "Capteur de température",
-      "hum_sensor": "Capteur d'humidité",
-      "show_index": "Sélectionnez les index à afficher"
+    "room_name": "Nom de la pièce",
+    "temp_sensor": "Capteur de température",
+    "hum_sensor": "Capteur d'humidité",
+    "show_index": "Sélectionnez les index à afficher"
   },
   "states": {
     "hi": {

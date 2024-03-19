@@ -9,10 +9,10 @@
     "di": "Index nepohodlia"
   },
   "configurator": {
-      "room_name": "Názov miestnosti",
-      "temp_sensor": "Snímač teploty",
-      "hum_sensor": "Snímač vlhkosti",
-      "show_index": "Vyberte, ktorý index chcete zobraziť"
+    "room_name": "Názov miestnosti",
+    "temp_sensor": "Snímač teploty",
+    "hum_sensor": "Snímač vlhkosti",
+    "show_index": "Vyberte, ktorý index chcete zobraziť"
   },
   "states": {
     "hi": {

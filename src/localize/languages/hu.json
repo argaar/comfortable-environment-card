@@ -1,37 +1,37 @@
 {
   "common": {
-    "version": "Verzió",
-    "description": "Egy kártya, amely információkat jelenít meg a ho- és diszkomfort-indexrol a helyiség homérséklete és páratartalma alapján!",
-    "invalid_configuration": "A Kényelmes Környezetkártya konfigurációja érvénytelen vagy nem létezik, kérjük, vizsgálja meg!",
-    "temperature": "Homérséklet",
-    "humidity": "Páratartalom",
+    "version": "VerziÃ³",
+    "description": "Egy kÃ¡rtya, amely informÃ¡ciÃ³kat jelenÃ­t meg a ho- Ã©s diszkomfort-indexrol a helyisÃ©g homÃ©rsÃ©klete Ã©s pÃ¡ratartalma alapjÃ¡n!",
+    "invalid_configuration": "A KÃ©nyelmes KÃ¶rnyezetkÃ¡rtya konfigurÃ¡ciÃ³ja Ã©rvÃ©nytelen vagy nem lÃ©tezik, kÃ©rjÃ¼k, vizsgÃ¡lja meg!",
+    "temperature": "HomÃ©rsÃ©klet",
+    "humidity": "PÃ¡ratartalom",
     "hi": "Ho index",
-    "di": "Kényelmetlenség index"
+    "di": "KÃ©nyelmetlensÃ©g index"
   },
   "configurator": {
-      "room_name": "Szoba neve",
-      "temp_sensor": "Homérséklet szenzor",
-      "hum_sensor": "Páratartalom szenzor",
-      "show_index": "Válaszd ki, melyik indexet szeretnéd megjeleníteni"
+    "room_name": "Szoba neve",
+    "temp_sensor": "HomÃ©rsÃ©klet szenzor",
+    "hum_sensor": "PÃ¡ratartalom szenzor",
+    "show_index": "VÃ¡laszd ki, melyik indexet szeretnÃ©d megjelenÃ­teni"
   },
   "states": {
     "hi": {
-      "0": "Jó",
-      "1": "Vigyázat",
-      "2": "Rendkívüli óvatosság",
-      "3": "Veszély",
-      "4": "Extrém veszély"
+      "0": "JÃ³",
+      "1": "VigyÃ¡zat",
+      "2": "RendkÃ­vÃ¼li Ã³vatossÃ¡g",
+      "3": "VeszÃ©ly",
+      "4": "ExtrÃ©m veszÃ©ly"
     },
     "di" : {
-      "0": "Rendkívül kényelmetlen",
-      "1": "Mérsékelten kényelmetlen",
-      "2": "Viszonylag kényelmes",
-      "3": "Kényelmes",
-      "4": "A lakosság kevesebb mint 50%-a érzi magát kényelmetlenül",
-      "5": "A lakosság több mint 50%-a kényelmetlenül érzi magát",
-      "6": "A lakosság nagy része kényelmetlenül érzi magát",
-      "7": "Mindenki súlyos stresszt érez",
-      "8": "Egészségügyi sürgosségi állapot"
+      "0": "RendkÃ­vÃ¼l kÃ©nyelmetlen",
+      "1": "MÃ©rsÃ©kelten kÃ©nyelmetlen",
+      "2": "Viszonylag kÃ©nyelmes",
+      "3": "KÃ©nyelmes",
+      "4": "A lakossÃ¡g kevesebb mint 50%-a Ã©rzi magÃ¡t kÃ©nyelmetlenÃ¼l",
+      "5": "A lakossÃ¡g tÃ¶bb mint 50%-a kÃ©nyelmetlenÃ¼l Ã©rzi magÃ¡t",
+      "6": "A lakossÃ¡g nagy rÃ©sze kÃ©nyelmetlenÃ¼l Ã©rzi magÃ¡t",
+      "7": "Mindenki sÃºlyos stresszt Ã©rez",
+      "8": "EgÃ©szsÃ©gÃ¼gyi sÃ¼rgossÃ©gi Ã¡llapot"
     }
   }
 }

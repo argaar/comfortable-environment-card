@@ -9,10 +9,10 @@
     "di": "Índice de comodidad térmica"
   },
   "configurator": {
-      "room_name": "Nombre de la habitación",
-      "temp_sensor": "Sensor de temperatura",
-      "hum_sensor": "Sensor de humedad",
-      "show_index": "Seleccione que índices desea mostrar"
+    "room_name": "Nombre de la habitación",
+    "temp_sensor": "Sensor de temperatura",
+    "hum_sensor": "Sensor de humedad",
+    "show_index": "Seleccione que índices desea mostrar"
   },
   "states": {
     "hi": {

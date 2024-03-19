@@ -9,10 +9,10 @@
     "di": "Index nepohody"
   },
   "configurator": {
-      "room_name": "Název oblasti",
-      "temp_sensor": "Senzor teploty",
-      "hum_sensor": "Senzor vlhkosti",
-      "show_index": "Vyberte, které indexy chcete zobrazit"
+    "room_name": "Název oblasti",
+    "temp_sensor": "Senzor teploty",
+    "hum_sensor": "Senzor vlhkosti",
+    "show_index": "Vyberte, které indexy chcete zobrazit"
   },
   "states": {
     "hi": {

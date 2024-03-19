@@ -20,7 +20,7 @@ export class ComfortableEnvironmentCardEditor extends ScopedRegistryHost(LitElem
 
   @state() private _config?: ComfortableEnvironmentCardConfig;
 
-  static elementDefinitions = {
+  static readonly elementDefinitions = {
     ...textfieldDefinition,
     ...selectDefinition,
     ...formfieldDefinition,
@@ -48,6 +48,10 @@ export class ComfortableEnvironmentCardEditor extends ScopedRegistryHost(LitElem
 
   get _show_index(): string {
       return this._config?.show_index ?? "ALL";
+  }
+
+  get _display_precision(): number {
+    return this._config?.display_precision ?? 1;
   }
 
   protected render(): TemplateResult | void {
@@ -105,6 +109,13 @@ export class ComfortableEnvironmentCardEditor extends ScopedRegistryHost(LitElem
         })}
       </mwc-select>
 
+      <mwc-textfield
+        label="${localize('configurator.display_precision')}"
+        .value=${this._display_precision}
+        .configValue=${'display_precision'}
+        @input=${this._valueChanged}
+      ></mwc-textfield>
+
       <mwc-select
         naturalMenuWidth
         fixedMenuPosition
@@ -122,7 +133,7 @@ export class ComfortableEnvironmentCardEditor extends ScopedRegistryHost(LitElem
     `;
   }
 
-  static styles: CSSResultGroup = css`
+  static readonly styles: CSSResultGroup = css`
     mwc-select,
     mwc-textfield {
       margin-bottom: 16px;
