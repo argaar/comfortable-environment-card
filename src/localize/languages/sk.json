@@ -12,7 +12,8 @@
     "room_name": "Názov miestnosti",
     "temp_sensor": "Snímač teploty",
     "hum_sensor": "Snímač vlhkosti",
-    "show_index": "Vyberte, ktorý index chcete zobraziť"
+    "show_index": "Vyberte, ktorý index chcete zobraziť",
+    "display_precision": "Zobraziť N čísiel za desatinnou čiarkou"
   },
   "states": {
     "hi": {
