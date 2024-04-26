@@ -13,4 +13,5 @@ export interface ComfortableEnvironmentCardConfig extends LovelaceCardConfig {
   humidity_sensor: string;
   show_index: string;
   display_precision: number;
+  show_realvalues: string;
 }

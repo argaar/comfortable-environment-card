@@ -13,7 +13,8 @@
     "temp_sensor": "Sensore di temperatura",
     "hum_sensor": "Sensore di umidità",
     "show_index": "Scegli quale indice mostrare",
-    "display_precision": "Mostra N numeri dopo la virgola"
+    "display_precision": "Mostra N numeri dopo la virgola",
+    "show_realvalues": "Mostra i valori reali in alto a destra"
   },
   "states": {
     "hi": {
