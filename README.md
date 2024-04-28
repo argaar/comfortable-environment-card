@@ -18,14 +18,15 @@ since even if the temperature seems to be ok, you could feel hot, too hot, cold,
 
 ## Options
 
-| Name               | Type    | Requirement  | Description                                    | Default  |
-| ------------------ | ------- | ------------ | ---------------------------------------------- | -------- |
-| type               | string  | **Required** | `custom:comfortable-environment-card`          |          |
-| room_name          | string  | **Optional** | Room name at top of the card                   | ""       |
-| temperature_sensor | string  | **Required** | Any "sensor" entity reporting temperature      |          |
-| humidity_sensor    | string  | **Required** | Any "sensor" entity reporting humidity         |          |
-| display_precision  | number  | **Required** | Numbers of decimals to show                    | 1        |
-| show_index         | string  | **Required** | Choose index to show (ALL, HI, DI)             | ALL      |
+| Name               | Type    | Requirement  | Description                                             | Default  |
+| ------------------ | ------- | ------------ | ------------------------------------------------------- | -------- |
+| type               | string  | **Required** | `custom:comfortable-environment-card`                   |          |
+| room_name          | string  | **Optional** | Room name at top of the card                            | ""       |
+| temperature_sensor | string  | **Required** | Any "sensor" entity reporting temperature               |          |
+| humidity_sensor    | string  | **Required** | Any "sensor" entity reporting humidity                  |          |
+| display_precision  | number  | **Required** | Numbers of decimals to show                             | 1        |
+| show_index         | string  | **Required** | Choose index to show (ALL, HI, DI)                      | ALL      |
+| show_realvalues    | string  | **Required** | Choose value to show (ALL, TEMPERATURE, HUMIDITY, NONE) | ALL      |
 
 ## Screenshot
 
@@ -43,22 +44,22 @@ Don't worry! There are (at least) three workarounds:
 
 - While you're in card editing mode, press on "SHOW CODE EDITOR" and write the
 
-    * temperature_sensor: sensor.my_temp_sensor
+    * `temperature_sensor: sensor.my_temp_sensor`
 
   or
 
-    * humidity_sensor: sensor.my_hum_sensor
+    * `humidity_sensor: sensor.my_hum_sensor`
 
   value by hand, you should see the card renders as soon as you write the sensor name
 
 - Go in the HA Developer Tools from the sidebar, then choose "States" and search for your Min/Max sensor
   click on it and in the "State attribute" area, add the property
 
-    * device_class: temperature
+    * `device_class: temperature`
 
   or
 
-    * device_class: humidity
+    * `device_class: humidity`
 
   then press Set State, this attribute is valid only until the next restart but you need it just once in order to configure the card
 
