@@ -13,7 +13,8 @@
     "temp_sensor": "Temperature Sensor",
     "hum_sensor": "Humidity Sensor",
     "show_index": "Choose which index you want to show",
-    "display_precision": "Display N numbers after decimal"
+    "display_precision": "Display N numbers after decimal",
+    "show_realvalues": "Display real values in top right corner"
   },
   "states": {
     "hi": {

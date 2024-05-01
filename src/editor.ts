@@ -50,6 +50,10 @@ export class ComfortableEnvironmentCardEditor extends ScopedRegistryHost(LitElem
       return this._config?.show_index ?? "ALL";
   }
 
+  get _show_realvalues(): string {
+    return this._config?.show_realvalues ?? "ALL";
+  }
+
   get _display_precision(): number {
     return this._config?.display_precision ?? 1;
   }
@@ -126,6 +130,20 @@ export class ComfortableEnvironmentCardEditor extends ScopedRegistryHost(LitElem
         @closed=${(ev) => ev.stopPropagation()}
       >
         ${['ALL','HI','DI'].map((entity) => {
+          return html`<mwc-list-item .value=${entity}>${entity}</mwc-list-item>`;
+        })}
+      </mwc-select>
+
+      <mwc-select
+        naturalMenuWidth
+        fixedMenuPosition
+        label="${localize('configurator.show_realvalues')}"
+        .configValue=${'show_realvalues'}
+        .value=${this._show_realvalues}
+        @selected=${this._valueChanged}
+        @closed=${(ev) => ev.stopPropagation()}
+      >
+        ${['ALL','TEMPERATURE','HUMIDITY', 'NONE'].map((entity) => {
           return html`<mwc-list-item .value=${entity}>${entity}</mwc-list-item>`;
         })}
       </mwc-select>

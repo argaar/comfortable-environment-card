@@ -68,7 +68,7 @@ class ComfortableEnvironmentCard extends LitElement {
   }
 
   public static getStubConfig(): Record<string, unknown> {
-    return { name: localize('configurator.room_name'), temperature_sensor: "sensor.room_temperature", humidity_sensor: "sensor.room_humidity", display_precision: 1, show_index: "ALL" };
+    return { name: localize('configurator.room_name'), temperature_sensor: "sensor.room_temperature", humidity_sensor: "sensor.room_humidity", display_precision: 1, show_index: "ALL", show_realvalues: "ALL" };
   }
 
   protected calcHI(tempInF: number, humValue: number): number {
@@ -165,6 +165,7 @@ class ComfortableEnvironmentCard extends LitElement {
     const tempSensorUnit = this.hass.states[this.config.temperature_sensor]?.attributes.unit_of_measurement
     const tempSensorUnitInF = this.hass.states[this.config.temperature_sensor]?.attributes.unit_of_measurement==='°F'
     const showIndex = this.config.show_index
+    const showRealValues = this.config.show_realvalues
     const display_precision = Number(this.config.display_precision)
 
     const tempCelsiusValue = tempSensorUnitInF ? this.toCelsius(tempSensorStatus) : tempSensorStatus
@@ -189,28 +190,34 @@ class ComfortableEnvironmentCard extends LitElement {
           <div class="name">
             ${this.config.room_name}
           </div>
-          <div class="header_icons">
-            <div class="temp">
-              ${tempSensorStatus.toFixed(display_precision)}${tempSensorUnit}
-              <div class="icon">
-                <svg preserveAspectRatio="xMidYMid meet" focusable="false" role="img" aria-hidden="true" viewBox="0 0 24 24" style="fill: var(--state-icon-color); vertical-align: sub;">
-                  <g>
-                    <path class="primary-path" d="${mdiThermometer}" />
-                  </g>
-                </svg>
-              </div>
+          ${(showRealValues != 'NONE')?html`
+            <div class="header_icons">
+              ${(showRealValues == 'ALL' || showRealValues == 'TEMPERATURE')?html`
+                <div class="temp">
+                  ${tempSensorStatus.toFixed(display_precision)}${tempSensorUnit}
+                  <div class="icon">
+                    <svg preserveAspectRatio="xMidYMid meet" focusable="false" role="img" aria-hidden="true" viewBox="0 0 24 24" style="fill: var(--state-icon-color); vertical-align: sub;">
+                      <g>
+                        <path class="primary-path" d="${mdiThermometer}" />
+                      </g>
+                    </svg>
+                  </div>
+                </div>
+              `:``}
+              ${(showRealValues == 'ALL' || showRealValues == 'HUMIDITY')?html`
+                <div class="hum">
+                  ${humSensorStatus.toFixed(display_precision)}%
+                  <div class="icon">
+                    <svg preserveAspectRatio="xMidYMid meet" focusable="false" role="img" aria-hidden="true" viewBox="0 0 24 24" style="fill: var(--state-icon-color); vertical-align: sub;">
+                      <g>
+                        <path class="primary-path" d="${mdiWaterPercent}" />
+                      </g>
+                    </svg>
+                  </div>
+                </div>
+              `:``}
             </div>
-            <div class="hum">
-              ${humSensorStatus.toFixed(display_precision)}%
-              <div class="icon">
-                <svg preserveAspectRatio="xMidYMid meet" focusable="false" role="img" aria-hidden="true" viewBox="0 0 24 24" style="fill: var(--state-icon-color); vertical-align: sub;">
-                  <g>
-                    <path class="primary-path" d="${mdiWaterPercent}" />
-                  </g>
-                </svg>
-              </div>
-            </div>
-          </div>
+            `:``}
         </div>
 
         <div class="info">
