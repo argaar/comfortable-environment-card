@@ -12,7 +12,9 @@
     "room_name": "Nome da Divisão",
     "temp_sensor": "Sensor de Temperatura",
     "hum_sensor": "Sensor de Humidade",
-    "show_index": "Escolha qual(ais) os índices a mostrar"
+    "show_index": "Escolha qual(ais) os índices a mostrar",
+    "display_precision": "Exibir N casas decimais",
+    "show_realvalues": "Exibir valores reais no canto superior-direito"
   },
   "states": {
     "hi": {
