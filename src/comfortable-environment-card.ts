@@ -186,39 +186,41 @@ class ComfortableEnvironmentCard extends LitElement {
       ${this.renderStyle()}
       <ha-card tabindex="0">
 
-        <div class="header">
-          <div class="name">
-            ${this.config.room_name}
-          </div>
-          ${(showRealValues != 'NONE')?html`
-            <div class="header_icons">
-              ${(showRealValues == 'ALL' || showRealValues == 'TEMPERATURE')?html`
-                <div class="temp">
-                  ${tempSensorStatus.toFixed(display_precision)}${tempSensorUnit}
-                  <div class="icon">
-                    <svg preserveAspectRatio="xMidYMid meet" focusable="false" role="img" aria-hidden="true" viewBox="0 0 24 24" style="fill: var(--state-icon-color); vertical-align: sub;">
-                      <g>
-                        <path class="primary-path" d="${mdiThermometer}" />
-                      </g>
-                    </svg>
-                  </div>
-                </div>
-              `:``}
-              ${(showRealValues == 'ALL' || showRealValues == 'HUMIDITY')?html`
-                <div class="hum">
-                  ${humSensorStatus.toFixed(display_precision)}%
-                  <div class="icon">
-                    <svg preserveAspectRatio="xMidYMid meet" focusable="false" role="img" aria-hidden="true" viewBox="0 0 24 24" style="fill: var(--state-icon-color); vertical-align: sub;">
-                      <g>
-                        <path class="primary-path" d="${mdiWaterPercent}" />
-                      </g>
-                    </svg>
-                  </div>
-                </div>
-              `:``}
+        ${(this.config.room_name || showRealValues != 'NONE')?html`
+          <div class="header">
+            <div class="name">
+              ${this.config.room_name}
             </div>
-            `:``}
-        </div>
+            ${(showRealValues != 'NONE')?html`
+              <div class="header_icons">
+                ${(showRealValues == 'ALL' || showRealValues == 'TEMPERATURE')?html`
+                  <div class="temp">
+                    ${tempSensorStatus.toFixed(display_precision)}${tempSensorUnit}
+                    <div class="icon">
+                      <svg preserveAspectRatio="xMidYMid meet" focusable="false" role="img" aria-hidden="true" viewBox="0 0 24 24" style="fill: var(--state-icon-color); vertical-align: sub;">
+                        <g>
+                          <path class="primary-path" d="${mdiThermometer}" />
+                        </g>
+                      </svg>
+                    </div>
+                  </div>
+                `:``}
+                ${(showRealValues == 'ALL' || showRealValues == 'HUMIDITY')?html`
+                  <div class="hum">
+                    ${humSensorStatus.toFixed(display_precision)}%
+                    <div class="icon">
+                      <svg preserveAspectRatio="xMidYMid meet" focusable="false" role="img" aria-hidden="true" viewBox="0 0 24 24" style="fill: var(--state-icon-color); vertical-align: sub;">
+                        <g>
+                          <path class="primary-path" d="${mdiWaterPercent}" />
+                        </g>
+                      </svg>
+                    </div>
+                  </div>
+                `:``}
+              </div>
+              `:``}
+          </div>
+        `:``}
 
         <div class="info">
 
