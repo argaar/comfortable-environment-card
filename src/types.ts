@@ -14,4 +14,5 @@ export interface ComfortableEnvironmentCardConfig extends LovelaceCardConfig {
   show_index: string;
   display_precision: number;
   show_realvalues: string;
+  index_showinfo: string;
 }

@@ -58,6 +58,10 @@ export class ComfortableEnvironmentCardEditor extends ScopedRegistryHost(LitElem
     return this._config?.display_precision ?? 1;
   }
 
+  get _index_showinfo(): string {
+    return this._config?.index_showinfo ?? "ALL";
+  }
+
   protected render(): TemplateResult | void {
     if (!this.hass) {
       return html``;
@@ -130,6 +134,20 @@ export class ComfortableEnvironmentCardEditor extends ScopedRegistryHost(LitElem
         @closed=${(ev) => ev.stopPropagation()}
       >
         ${['ALL','HI','DI'].map((entity) => {
+          return html`<mwc-list-item .value=${entity}>${entity}</mwc-list-item>`;
+        })}
+      </mwc-select>
+
+      <mwc-select
+        naturalMenuWidth
+        fixedMenuPosition
+        label="${localize('configurator.index_showinfo')}"
+        .configValue=${'index_showinfo'}
+        .value=${this._index_showinfo}
+        @selected=${this._valueChanged}
+        @closed=${(ev) => ev.stopPropagation()}
+      >
+        ${['ALL','ICON','ICON_AND_NAME','ICON_AND_TEXT','NAME','NAME_AND_TEXT','TEXT','NONE'].map((entity) => {
           return html`<mwc-list-item .value=${entity}>${entity}</mwc-list-item>`;
         })}
       </mwc-select>

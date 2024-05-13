@@ -68,7 +68,7 @@ class ComfortableEnvironmentCard extends LitElement {
   }
 
   public static getStubConfig(): Record<string, unknown> {
-    return { name: localize('configurator.room_name'), temperature_sensor: "sensor.room_temperature", humidity_sensor: "sensor.room_humidity", display_precision: 1, show_index: "ALL", show_realvalues: "ALL" };
+    return { name: localize('configurator.room_name'), temperature_sensor: "sensor.room_temperature", humidity_sensor: "sensor.room_humidity", display_precision: 1, show_index: "ALL", show_realvalues: "ALL", index_showinfo: "ALL" };
   }
 
   protected calcHI(tempInF: number, humValue: number): number {
@@ -102,8 +102,11 @@ class ComfortableEnvironmentCard extends LitElement {
   }
 
   protected calcHIEffects(hiValue: number): number {
-    let hieffects = 0
+    let hieffects = NaN
     switch(true) {
+        case hiValue<80:
+          hieffects = 0
+          break;
         case hiValue>=80 && hiValue<=90.0:
           hieffects = 1
           break;
@@ -125,8 +128,11 @@ class ComfortableEnvironmentCard extends LitElement {
   }
 
   protected calcDIEffects(diValue: number): number {
-    let diEffects = 0
+    let diEffects = NaN
     switch(true) {
+      case diValue <= 10.0:
+        diEffects = 0
+        break;
       case diValue>10.0 && diValue<=15.0:
         diEffects = 1
         break;
@@ -164,9 +170,10 @@ class ComfortableEnvironmentCard extends LitElement {
     const humSensorStatus = Number(this.hass.states[this.config.humidity_sensor]?.state);
     const tempSensorUnit = this.hass.states[this.config.temperature_sensor]?.attributes.unit_of_measurement
     const tempSensorUnitInF = this.hass.states[this.config.temperature_sensor]?.attributes.unit_of_measurement==='°F'
-    const showIndex = this.config.show_index
-    const showRealValues = this.config.show_realvalues
-    const display_precision = Number(this.config.display_precision)
+    const showIndex = this.config.show_index || 'ALL'
+    const indexInfo = this.config.index_showinfo || 'ALL'
+    const showRealValues = this.config.show_realvalues || 'ALL'
+    const display_precision = Number(this.config.display_precision) || 1
 
     const tempCelsiusValue = tempSensorUnitInF ? this.toCelsius(tempSensorStatus) : tempSensorStatus
     const tempFarenheitValue = tempSensorUnitInF ? tempSensorStatus : this.toFahrenheit(tempSensorStatus)
@@ -186,74 +193,108 @@ class ComfortableEnvironmentCard extends LitElement {
       ${this.renderStyle()}
       <ha-card tabindex="0">
 
-        ${(this.config.room_name || showRealValues != 'NONE')?html`
-          <div class="header">
-            <div class="name">
-              ${this.config.room_name}
-            </div>
-            ${(showRealValues != 'NONE')?html`
-              <div class="header_icons">
-                ${(showRealValues == 'ALL' || showRealValues == 'TEMPERATURE')?html`
-                  <div class="temp">
-                    ${tempSensorStatus.toFixed(display_precision)}${tempSensorUnit}
-                    <div class="icon">
-                      <svg preserveAspectRatio="xMidYMid meet" focusable="false" role="img" aria-hidden="true" viewBox="0 0 24 24" style="fill: var(--state-icon-color); vertical-align: sub;">
-                        <g>
-                          <path class="primary-path" d="${mdiThermometer}" />
-                        </g>
-                      </svg>
-                    </div>
-                  </div>
-                `:``}
-                ${(showRealValues == 'ALL' || showRealValues == 'HUMIDITY')?html`
-                  <div class="hum">
-                    ${humSensorStatus.toFixed(display_precision)}%
-                    <div class="icon">
-                      <svg preserveAspectRatio="xMidYMid meet" focusable="false" role="img" aria-hidden="true" viewBox="0 0 24 24" style="fill: var(--state-icon-color); vertical-align: sub;">
-                        <g>
-                          <path class="primary-path" d="${mdiWaterPercent}" />
-                        </g>
-                      </svg>
-                    </div>
-                  </div>
-                `:``}
-              </div>
-              `:``}
+        <div class="header">
+
+          <div class="name">
+            ${this.config.room_name}
           </div>
-        `:``}
+
+          ${(showRealValues != 'NONE')?html`
+            <div class="header_icons">
+              ${(showRealValues == 'ALL' || showRealValues == 'TEMPERATURE')?html`
+                <div class="temp">
+                  ${tempSensorStatus.toFixed(display_precision)}${tempSensorUnit}
+                  <div class="icon">
+                    <svg preserveAspectRatio="xMidYMid meet" focusable="false" role="img" aria-hidden="true" viewBox="0 0 24 24" style="fill: var(--state-icon-color); vertical-align: sub;">
+                      <g>
+                        <path class="primary-path" d="${mdiThermometer}" />
+                      </g>
+                    </svg>
+                  </div>
+                </div>
+              `:``}
+
+              ${(showRealValues == 'ALL' || showRealValues == 'HUMIDITY')?html`
+                <div class="hum">
+                  ${humSensorStatus.toFixed(display_precision)}%
+                  <div class="icon">
+                    <svg preserveAspectRatio="xMidYMid meet" focusable="false" role="img" aria-hidden="true" viewBox="0 0 24 24" style="fill: var(--state-icon-color); vertical-align: sub;">
+                      <g>
+                        <path class="primary-path" d="${mdiWaterPercent}" />
+                      </g>
+                    </svg>
+                  </div>
+                </div>
+              `:``}
+            </div>
+            `:``}
+
+        </div>
 
         <div class="info">
 
           ${(showIndex == 'ALL' || showIndex == 'HI')?html`
-            <div class="comfort-env-text">
-              <div class="icon">
-                <svg preserveAspectRatio="xMidYMid meet" focusable="false" role="img" aria-hidden="true" viewBox="0 0 24 24" style="fill: var(--state-icon-color); vertical-align: sub;">
-                  <g>
-                    <path class="primary-path" d="${mdiSunThermometer}" />
-                  </g>
-                </svg>
+            ${(indexInfo != 'NONE')?html`
+              <div class="comfort-env-text">
+                ${(indexInfo == 'ALL' || indexInfo == 'ICON' || indexInfo == 'ICON_AND_NAME' || indexInfo == 'ICON_AND_TEXT')?html`
+                  <div class="icon">
+                    <svg preserveAspectRatio="xMidYMid meet" focusable="false" role="img" aria-hidden="true" viewBox="0 0 24 24" style="fill: var(--state-icon-color); vertical-align: sub;">
+                      <g>
+                        <path class="primary-path" d="${mdiSunThermometer}" />
+                      </g>
+                    </svg>
+                  </div>
+                `:``}
+                ${(indexInfo != 'ICON')?html`
+                  <div class="effects">
+                    ${(indexInfo == 'ALL' || indexInfo == 'ICON_AND_NAME' || indexInfo == 'NAME' || indexInfo == 'NAME_AND_TEXT')?html`
+                      ${localize('common.hi')}: ${HI}${tempSensorUnit}
+                    `:``}
+                    ${(indexInfo == 'ALL' || indexInfo == 'NAME_AND_TEXT')?html`
+                       - 
+                    `:``}
+                    ${(indexInfo == 'ALL' || indexInfo == 'ICON_AND_TEXT' || indexInfo == 'TEXT' || indexInfo == 'NAME_AND_TEXT')?html`
+                      ${!Number.isNaN(HIeffects)?localize('states.hi.'+[HIeffects]):'---'}
+                    `:``}
+                  </div>
+                `:``}
               </div>
-              <div class="effects">${localize('common.hi')}: ${HI}${tempSensorUnit} - ${localize('states.hi.'+[HIeffects])}</div>
-            </div>
-            <div class="color-range-container">
+            `:``}
+            <div class="color-range-container${indexInfo=='NONE'?' collapsed':''}">
               <div class="color-range-gradient" style="background: linear-gradient(90deg, rgb(254, 240, 217) 0%, rgb(253, 204, 138) 28%, rgb(252, 141, 89) 42%, rgb(227, 74, 51) 66%, rgb(179, 0, 0) 100%);" >
-                  <li class="value-box" style="margin-left: max(0%,calc(${this.calcRange(0,100,tempSensorUnitInF?76:23,tempSensorUnitInF?132:57,HI)}% - 46px))">${HI}</li>
+                  <div class="value-box" style="margin-left: max(0%,calc(${this.calcRange(0,100,tempSensorUnitInF?76:23,tempSensorUnitInF?132:57,HI)}% - 46px))">${HI}</div>
               </div>
             </div>
           `:``}
 
           ${(showIndex == 'ALL' || showIndex == 'DI')?html`
-            <div class="comfort-env-text">
-              <div class="icon">
-                <svg preserveAspectRatio="xMidYMid meet" focusable="false" role="img" aria-hidden="true" viewBox="0 0 24 24" style="fill: var(--state-icon-color); vertical-align: sub;">
-                  <g>
-                    <path class="primary-path" d="${mdiThermometerLines}" />
-                  </g>
-                </svg>
-              </div>
-              <div class="effects">${localize('common.di')}: ${DI} - ${localize('states.di.'+[DIeffects])}</div>
+            ${(indexInfo != 'NONE')?html`
+              <div class="comfort-env-text">
+                ${(indexInfo == 'ALL' || indexInfo == 'ICON' || indexInfo == 'ICON_AND_NAME' || indexInfo == 'ICON_AND_TEXT')?html`
+                  <div class="icon">
+                    <svg preserveAspectRatio="xMidYMid meet" focusable="false" role="img" aria-hidden="true" viewBox="0 0 24 24" style="fill: var(--state-icon-color); vertical-align: sub;">
+                      <g>
+                        <path class="primary-path" d="${mdiThermometerLines}" />
+                      </g>
+                    </svg>
+                  </div>
+                `:``}
+                ${(indexInfo != 'ICON')?html`
+                  <div class="effects">
+                  ${(indexInfo == 'ALL' || indexInfo == 'ICON_AND_NAME' || indexInfo == 'NAME' || indexInfo == 'NAME_AND_TEXT')?html`
+                    ${localize('common.di')}: ${DI}
+                  `:``}
+                  ${(indexInfo == 'ALL' || indexInfo == 'NAME_AND_TEXT')?html`
+                     - 
+                  `:``}
+                  ${(indexInfo == 'ALL' || indexInfo == 'ICON_AND_TEXT' || indexInfo == 'TEXT' || indexInfo == 'NAME_AND_TEXT')?html`
+                    ${!Number.isNaN(DIeffects)?localize('states.di.'+[DIeffects]):'---'}
+                  `:``}
+                  </div>
+                `:``}
             </div>
-            <div class="color-range-container">
+            `:``}
+            <div class="color-range-container${indexInfo=='NONE'?' collapsed':''}">
               <div class="color-range-gradient" style="background: linear-gradient(90deg,rgb(5, 112, 176) 0%,rgb(116, 169, 207)12%,rgb(189, 201, 225) 32%,rgb(241, 238, 246) 44%,rgb(254, 240, 217) 56%,rgb(253, 204, 138) 68%,rgb(252, 141, 89) 80%,rgb(227, 74, 51) 88%,rgb(179, 0, 0) 100%);" >
                   <div class="value-box" style="margin-left: max(0%,calc(${this.calcRange(0,100,8,34,DI)}% - 46px))">${DI}</div>
               </div>
@@ -283,13 +324,16 @@ class ComfortableEnvironmentCard extends LitElement {
         .color-range-container {
             display: flex;
         }
+        .collapsed {
+          margin-top: 2%;
+        }
         .color-range-gradient {
             width: 100%;
             border-radius: 5px;
             margin: 0 10px 10px;
         }
         .value-box {
-            border: solid 3px #000;
+            border: solid 2px #000;
             border-radius: 10px;
             padding: 3px;
             width: 32px;
@@ -303,15 +347,18 @@ class ComfortableEnvironmentCard extends LitElement {
             margin: 0 10px 0;
             padding: 5px 0 5px;
             text-align: left;
-            line-height: var(--mdc-icon-size);
+            line-height: var(--mdc-icon-size, 8px);
         }
         .info {
             margin-top: -4px;
             padding-bottom: 1%;
         }
+        .effects {
+          display: inline;
+        }
         .header {
             display: flex;
-            padding: 0 2% 0;
+            padding: 1% 2% 0;
             justify-content: space-between;
             font-weight: 500;
             margin-bottom: 1%;
@@ -328,8 +375,8 @@ class ComfortableEnvironmentCard extends LitElement {
         }
         .icon {
             display: inline-block;
-            width: var(--mdc-icon-size);
-            height: var(--mdc-icon-size);
+            width: var(--mdc-icon-size, 24px);
+            height: var(--mdc-icon-size, 24px);
         }
       </style>
     `;

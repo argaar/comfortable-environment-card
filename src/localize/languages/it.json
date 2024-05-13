@@ -14,7 +14,8 @@
     "hum_sensor": "Sensore di umidità",
     "show_index": "Scegli quale indice mostrare",
     "display_precision": "Mostra N numeri dopo la virgola",
-    "show_realvalues": "Mostra i valori reali in alto a destra"
+    "show_realvalues": "Mostra i valori reali in alto a destra",
+    "index_showinfo": "Mostra informazioni per l'indice"
   },
   "states": {
     "hi": {
