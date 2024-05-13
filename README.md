@@ -18,15 +18,16 @@ since even if the temperature seems to be ok, you could feel hot, too hot, cold,
 
 ## Options
 
-| Name               | Type    | Requirement  | Description                                             | Default  |
-| ------------------ | ------- | ------------ | ------------------------------------------------------- | -------- |
-| type               | string  | **Required** | `custom:comfortable-environment-card`                   |          |
-| room_name          | string  | **Optional** | Room name at top of the card                            | ""       |
-| temperature_sensor | string  | **Required** | Any "sensor" entity reporting temperature               |          |
-| humidity_sensor    | string  | **Required** | Any "sensor" entity reporting humidity                  |          |
-| display_precision  | number  | **Required** | Numbers of decimals to show                             | 1        |
-| show_index         | string  | **Required** | Choose index to show (ALL, HI, DI)                      | ALL      |
-| show_realvalues    | string  | **Required** | Choose value to show (ALL, TEMPERATURE, HUMIDITY, NONE) | ALL      |
+| Name               | Type    | Requirement  | Description                                                | Default  |
+| ------------------ | ------- | ------------ | -----------------------------------------------------------| -------- |
+| type               | string  | **Required** | `custom:comfortable-environment-card`                      |          |
+| room_name          | string  | **Optional** | Room name at top of the card                               | ""       |
+| temperature_sensor | string  | **Required** | Any "sensor" entity reporting temperature                  |          |
+| humidity_sensor    | string  | **Required** | Any "sensor" entity reporting humidity                     |          |
+| display_precision  | number  | **Optional** | Numbers of decimals to show                                | 1        |
+| show_index         | string  | **Optional** | Choose index to show (ALL, HI, DI)                         | ALL      |
+| show_realvalues    | string  | **Optional** | Choose value to show (ALL, TEMPERATURE, HUMIDITY, NONE)    | ALL      |
+| index_showinfo     | string  | **Optional** | Display Index Info (ALL, ICON, ICON_AND_N.., ICON_AND_T..) | ALL      |
 
 ## Screenshot
 
