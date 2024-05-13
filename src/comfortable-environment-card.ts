@@ -186,39 +186,41 @@ class ComfortableEnvironmentCard extends LitElement {
       ${this.renderStyle()}
       <ha-card tabindex="0">
 
-        <div class="header">
-          <div class="name">
-            ${this.config.room_name}
-          </div>
-          ${(showRealValues != 'NONE')?html`
-            <div class="header_icons">
-              ${(showRealValues == 'ALL' || showRealValues == 'TEMPERATURE')?html`
-                <div class="temp">
-                  ${tempSensorStatus.toFixed(display_precision)}${tempSensorUnit}
-                  <div class="icon">
-                    <svg preserveAspectRatio="xMidYMid meet" focusable="false" role="img" aria-hidden="true" viewBox="0 0 24 24" style="fill: var(--state-icon-color); vertical-align: sub;">
-                      <g>
-                        <path class="primary-path" d="${mdiThermometer}" />
-                      </g>
-                    </svg>
-                  </div>
-                </div>
-              `:``}
-              ${(showRealValues == 'ALL' || showRealValues == 'HUMIDITY')?html`
-                <div class="hum">
-                  ${humSensorStatus.toFixed(display_precision)}%
-                  <div class="icon">
-                    <svg preserveAspectRatio="xMidYMid meet" focusable="false" role="img" aria-hidden="true" viewBox="0 0 24 24" style="fill: var(--state-icon-color); vertical-align: sub;">
-                      <g>
-                        <path class="primary-path" d="${mdiWaterPercent}" />
-                      </g>
-                    </svg>
-                  </div>
-                </div>
-              `:``}
+        ${(this.config.room_name || showRealValues != 'NONE')?html`
+          <div class="header">
+            <div class="name">
+              ${this.config.room_name}
             </div>
-            `:``}
-        </div>
+            ${(showRealValues != 'NONE')?html`
+              <div class="header_icons">
+                ${(showRealValues == 'ALL' || showRealValues == 'TEMPERATURE')?html`
+                  <div class="temp">
+                    ${tempSensorStatus.toFixed(display_precision)}${tempSensorUnit}
+                    <div class="icon">
+                      <svg preserveAspectRatio="xMidYMid meet" focusable="false" role="img" aria-hidden="true" viewBox="0 0 24 24" style="fill: var(--state-icon-color); vertical-align: sub;">
+                        <g>
+                          <path class="primary-path" d="${mdiThermometer}" />
+                        </g>
+                      </svg>
+                    </div>
+                  </div>
+                `:``}
+                ${(showRealValues == 'ALL' || showRealValues == 'HUMIDITY')?html`
+                  <div class="hum">
+                    ${humSensorStatus.toFixed(display_precision)}%
+                    <div class="icon">
+                      <svg preserveAspectRatio="xMidYMid meet" focusable="false" role="img" aria-hidden="true" viewBox="0 0 24 24" style="fill: var(--state-icon-color); vertical-align: sub;">
+                        <g>
+                          <path class="primary-path" d="${mdiWaterPercent}" />
+                        </g>
+                      </svg>
+                    </div>
+                  </div>
+                `:``}
+              </div>
+              `:``}
+          </div>
+        `:``}
 
         <div class="info">
 
@@ -253,7 +255,7 @@ class ComfortableEnvironmentCard extends LitElement {
             </div>
             <div class="color-range-container">
               <div class="color-range-gradient" style="background: linear-gradient(90deg,rgb(5, 112, 176) 0%,rgb(116, 169, 207)12%,rgb(189, 201, 225) 32%,rgb(241, 238, 246) 44%,rgb(254, 240, 217) 56%,rgb(253, 204, 138) 68%,rgb(252, 141, 89) 80%,rgb(227, 74, 51) 88%,rgb(179, 0, 0) 100%);" >
-                  <li class="value-box" style="margin-left: max(0%,calc(${this.calcRange(0,100,8,34,DI)}% - 46px))">${DI}</li>
+                  <div class="value-box" style="margin-left: max(0%,calc(${this.calcRange(0,100,8,34,DI)}% - 46px))">${DI}</div>
               </div>
             </div>
           `:``}
@@ -278,53 +280,41 @@ class ComfortableEnvironmentCard extends LitElement {
   protected renderStyle(): TemplateResult | void {
     return html`
       <style>
-        .color-range-container{
-            display:grid;
-            grid-template-columns:50px auto 100px auto 50px;
-            margin-bottom: 1%;
+        .color-range-container {
+            display: flex;
         }
-        .color-range-gradient{
-            grid-column:1/6;
-            display:flex;
-            flex-flow:row wrap;
-            border-radius:5px;
-            padding:0;
-            margin:0 10px;
-            list-style:none;
-            box-shadow:5px 5px 7px inset rgba(0,0,0,.5),-5px -5px 7px inset rgba(0,0,0,.5);
+        .color-range-gradient {
+            width: 100%;
+            border-radius: 5px;
+            margin: 0 10px 10px;
         }
-        .value-box{
-            background:0 0;
-            border:solid 3px #fff;
-            border-radius:10px;
-            padding:3px;
-            width:32px;
-            color:#fff;
-            font-size:.9em;
-            text-align:center;
-            margin:2px 0;
-            box-shadow:-1px 2px 4px rgba(0,0,0,.5),1px 1px 3px rgba(0,0,0,.5),-1px 2px 4px inset rgba(0,0,0,.5),1px 1px 3px inset rgba(0,0,0,.5);
-            text-shadow:-1px 2px 4px rgba(0,0,0,.5),1px 1px 3px rgba(0,0,0,.5);
+        .value-box {
+            border: solid 3px #000;
+            border-radius: 10px;
+            padding: 3px;
+            width: 32px;
+            color: #000;
+            font-size: .9em;
+            font-weight: bold;
+            text-align: center;
+            margin: 2px 0;
         }
-       .comfort-env-text{
-            margin:0 10px 0;
-            padding:5px 0 5px;
-            text-align:left;
+       .comfort-env-text {
+            margin: 0 10px 0;
+            padding: 5px 0 5px;
+            text-align: left;
+            line-height: var(--mdc-icon-size);
         }
         .info {
             margin-top: -4px;
             padding-bottom: 1%;
         }
-        .effects {
-            display: inline;
-        }
         .header {
             display: flex;
             padding: 0 2% 0;
             justify-content: space-between;
-            line-height: 40px;
             font-weight: 500;
-            margin-top: 1%;
+            margin-bottom: 1%;
         }
         .header > .name {
             font-size: 20px;
@@ -338,8 +328,8 @@ class ComfortableEnvironmentCard extends LitElement {
         }
         .icon {
             display: inline-block;
-            width: 24px;
-            height: 24px;
+            width: var(--mdc-icon-size);
+            height: var(--mdc-icon-size);
         }
       </style>
     `;
