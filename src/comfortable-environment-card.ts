@@ -262,7 +262,7 @@ class ComfortableEnvironmentCard extends LitElement {
             `:``}
             <div class="color-range-container${indexInfo=='NONE'?' collapsed':''}">
               <div class="color-range-gradient" style="background: linear-gradient(90deg, rgb(254, 240, 217) 0%, rgb(253, 204, 138) 28%, rgb(252, 141, 89) 42%, rgb(227, 74, 51) 66%, rgb(179, 0, 0) 100%);" >
-                  <div class="value-box" style="margin-left: max(0%,calc(${this.calcRange(0,100,tempSensorUnitInF?76:23,tempSensorUnitInF?132:57,HI)}% - 46px))">${HI}</div>
+                  <div class="value-box" style="margin-left: max(0%,calc(${this.calcRange(0,100,tempSensorUnitInF?76:23,tempSensorUnitInF?132:57,HI)}% - 46px))">${HI.toFixed(display_precision)}</div>
               </div>
             </div>
           `:``}
@@ -296,7 +296,7 @@ class ComfortableEnvironmentCard extends LitElement {
             `:``}
             <div class="color-range-container${indexInfo=='NONE'?' collapsed':''}">
               <div class="color-range-gradient" style="background: linear-gradient(90deg,rgb(5, 112, 176) 0%,rgb(116, 169, 207)12%,rgb(189, 201, 225) 32%,rgb(241, 238, 246) 44%,rgb(254, 240, 217) 56%,rgb(253, 204, 138) 68%,rgb(252, 141, 89) 80%,rgb(227, 74, 51) 88%,rgb(179, 0, 0) 100%);" >
-                  <div class="value-box" style="margin-left: max(0%,calc(${this.calcRange(0,100,8,34,DI)}% - 46px))">${DI}</div>
+                  <div class="value-box" style="margin-left: max(0%,calc(${this.calcRange(0,100,8,34,DI)}% - 46px))">${DI.toFixed(display_precision)}</div>
               </div>
             </div>
           `:``}
