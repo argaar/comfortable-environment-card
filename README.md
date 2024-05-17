@@ -35,6 +35,14 @@ since even if the temperature seems to be ok, you could feel hot, too hot, cold,
 
 ## Known Issues
 
+#### Can't get my language working
+
+This card get the language code from a variable in your browser, issued by HomeAssistant when you choose the default one in your profile page.
+Sometimes this variable is not present, so if you can't display this card in your preferred language, please try to switch to a different language
+and then back to your preferred one (so for example if you want to show the card in Czech, switch to English, and then back to Czech)
+This way, HomeAssistant should populate the variable with the lang code and the card will fine the correct text instead of fallback to English
+
+#### Group Sensors
 The card editor has a filter to let user choose temperature and humidity sensors only, all other entities from HA are excluded from the selection
 Unfortunately if you have a sensor based on [Min/Max Helper](https://www.home-assistant.io/integrations/min_max/) (aka "Combine the state of..."),
 you won't find it in the dropdown because it lacks the correct device_class attribute (see [here](https://github.com/home-assistant/core/issues/76003) and [here](https://github.com/home-assistant/core/issues/78979))
@@ -93,7 +101,7 @@ Also this project is sponsored by [Locize](https://locize.com/) that hosts the l
 
 Pull request, issues or translations are very welcomed.
 If you can contribute writing code feel free to submit your PR, if you find a bug or have an idea about an enhanchment that everyone could benefit of please write it in the issues
-If you can help translating some text, head to [Locize](https://locize.com/)
+If you can help translating some text, head to invitation link on [Locize](https://www.locize.app/register?invitation=gqBA02mq7U4wJOdIsM4eRzaJ25S5Va1uq11ti6tIDCHlAddKFxm4ewyfPIoXA2Sm)
 
 [screenshot]: https://raw.githubusercontent.com/argaar/comfortable-environment-card/main/screenshot.png
 [commits-shield]: https://img.shields.io/github/commit-activity/y/argaar/comfortable-environment-card.svg?style=for-the-badge
