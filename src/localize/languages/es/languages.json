@@ -1,0 +1,37 @@
+{
+  "common": {
+    "description": "¡Tarjeta que muestra información sobre el Índice de calor e Índice de incomodidad a partir de la temperatura y humedad de una habitación!",
+    "di": "Índice de comodidad térmica",
+    "hi": "Índice de sensación térmica",
+    "humidity": "Humedad",
+    "invalid_configuration": "¡La configuración de la Tarjeta de Entorno Comfortable es inválida o no existe, por favor, investigue la causa!",
+    "temperature": "Temperatura",
+    "version": "Version"
+  },
+  "configurator": {
+    "hum_sensor": "Sensor de humedad",
+    "room_name": "Nombre de la habitación",
+    "show_index": "Seleccione que índices desea mostrar",
+    "temp_sensor": "Sensor de temperatura"
+  },
+  "states": {
+    "di": [
+      "Sensación de incomodidad extrema",
+      "Sensación de incomodidad moderada",
+      "Comodidad relativa",
+      "Nada incómodo",
+      "Menos del 50% de la población se siente incómoda",
+      "Más del 50% de la población se siente incómoda",
+      "La mayoria se sienten incómodos",
+      "Todo el mundo se siente incómodo",
+      "Situación de emergéncia médica"
+    ],
+    "hi": [
+      "Bueno",
+      "Precaución",
+      "Precaución extrema",
+      "Peligro",
+      "Peligro extremo"
+    ]
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "common": {
+    "description": "Een kaart met informatie over de warmte-index en de onbehagelijkheids-index op basis van de temperatuur en vochtigheid in een kamer!",
+    "di": "Onbehagelijkheids Index",
+    "hi": "Warmte Index",
+    "humidity": "Vochtigheid",
+    "invalid_configuration": "De configuratie voor de Behagelijkheids Omgevingskaart is ongeldig of bestaat niet. Onderzoek dit alstublieft!",
+    "temperature": "Temperatuur",
+    "version": "Versie"
+  },
+  "configurator": {
+    "hum_sensor": "Vochtigheid Sensor",
+    "room_name": "Kamernaam",
+    "show_index": "Kies welke index u wilt weergeven",
+    "temp_sensor": "Temperatuur Sensor"
+  },
+  "states": {
+    "di": [
+      "Zeer onbehagelijk",
+      "Matig onbehagelijk",
+      "Redelijk behagelijk",
+      "Behagelijk",
+      "Minder dan 50% van de bevolking voelt zich onbehagelijk",
+      "Meer dan 50% van de bevolking voelt zich onbehagelijk",
+      "Het merendeel van de bevolking voelt zich onbehagelijk",
+      "Iedereen ervaart ernstige stress",
+      "Medische noodtoestand"
+    ],
+    "hi": [
+      "Goed",
+      "Voorzichtig",
+      "Extra voorzichtig",
+      "Gevaarlijk",
+      "Zeer gevaarlijk"
+    ]
+  }
+}

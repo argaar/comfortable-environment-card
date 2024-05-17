@@ -1,17 +1,17 @@
-import * as cs from "./languages/cs.json";
-import * as de from "./languages/de.json";
-import * as en from "./languages/en.json";
-import * as es from "./languages/es.json";
-import * as fr from "./languages/fr.json";
-import * as gr from "./languages/gr.json";
-import * as hu from "./languages/hu.json";
-import * as it from "./languages/it.json";
-import * as nl from "./languages/nl.json";
-import * as pt from "./languages/pt.json";
-import * as pt_BR from "./languages/pt_BR.json";
-import * as ru from "./languages/ru.json";
-import * as sk from "./languages/sk.json";
-import * as uk from "./languages/uk.json";
+import * as cs from "./languages/cs/languages.json";
+import * as de from "./languages/de/languages.json";
+import * as en from "./languages/en/languages.json";
+import * as es from "./languages/es/languages.json";
+import * as fr from "./languages/fr/languages.json";
+import * as gr from "./languages/gr/languages.json";
+import * as hu from "./languages/hu/languages.json";
+import * as it from "./languages/it/languages.json";
+import * as nl from "./languages/nl/languages.json";
+import * as pt from "./languages/pt/languages.json";
+import * as pt_BR from "./languages/pt-BR/languages.json";
+import * as ru from "./languages/ru/languages.json";
+import * as sk from "./languages/sk/languages.json";
+import * as uk from "./languages/uk/languages.json";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const languages: any = {

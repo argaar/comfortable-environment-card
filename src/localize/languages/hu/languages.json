@@ -1,0 +1,37 @@
+{
+  "common": {
+    "description": "Egy kártya, amely információkat jelenít meg a ho- és diszkomfort-indexrol a helyiség homérséklete és páratartalma alapján!",
+    "di": "Kényelmetlenség index",
+    "hi": "Ho index",
+    "humidity": "Páratartalom",
+    "invalid_configuration": "A Kényelmes Környezetkártya konfigurációja érvénytelen vagy nem létezik, kérjük, vizsgálja meg!",
+    "temperature": "Homérséklet",
+    "version": "Verzió"
+  },
+  "configurator": {
+    "hum_sensor": "Páratartalom szenzor",
+    "room_name": "Szoba neve",
+    "show_index": "Válaszd ki, melyik indexet szeretnéd megjeleníteni",
+    "temp_sensor": "Homérséklet szenzor"
+  },
+  "states": {
+    "di": [
+      "Rendkívül kényelmetlen",
+      "Mérsékelten kényelmetlen",
+      "Viszonylag kényelmes",
+      "Kényelmes",
+      "A lakosság kevesebb mint 50%-a érzi magát kényelmetlenül",
+      "A lakosság több mint 50%-a kényelmetlenül érzi magát",
+      "A lakosság nagy része kényelmetlenül érzi magát",
+      "Mindenki súlyos stresszt érez",
+      "Egészségügyi sürgosségi állapot"
+    ],
+    "hi": [
+      "Jó",
+      "Vigyázat",
+      "Rendkívüli óvatosság",
+      "Veszély",
+      "Extrém veszély"
+    ]
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "common": {
+    "description": "Une carte pour afficher l'index de chaleur et d'inconfort à partir d'une température et humidité",
+    "di": "Index d'inconfort",
+    "hi": "Index de chaleur",
+    "humidity": "Humidité",
+    "invalid_configuration": "La configuration pour la carte 'Comfortable Environment Card' est invalide ou inexistante, à investiguer !",
+    "temperature": "Température",
+    "version": "Version"
+  },
+  "configurator": {
+    "hum_sensor": "Capteur d'humidité",
+    "room_name": "Nom de la pièce",
+    "show_index": "Sélectionnez les index à afficher",
+    "temp_sensor": "Capteur de température"
+  },
+  "states": {
+    "di": [
+      "Inconfort extrême",
+      "Inconfort modéré>",
+      "Confort relatif",
+      "Pas d'inconfort",
+      "Inconfort modéré",
+      "Inconfort",
+      "Inconfort sévère",
+      "Inconfort extrême",
+      "Urgence médiale"
+    ],
+    "hi": [
+      "Bon",
+      "Prudence",
+      "Prudence extrême",
+      "Danger",
+      "Danger extrême"
+    ]
+  }
+}

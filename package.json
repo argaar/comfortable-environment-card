@@ -1,6 +1,6 @@
 {
   "name": "comfortable-environment-card",
-  "version": "1.7.0",
+  "version": "1.7.1",
   "description": "Lovelace comfortable-environment-card",
   "keywords": [
     "home-assistant",
@@ -22,7 +22,9 @@
   "scripts": {
     "start": "rollup -c rollup.config.dev.js --watch",
     "build": "npm run lint && npm run rollup",
+    "sync_and_build": "npm run sync_langs && npm run lint && npm run rollup",
     "lint": "eslint src/*.ts",
+    "sync_langs": "locize download --project-id 535e704d-ed8a-4d1d-88b6-f29e6a61507a --ver latest --namespace languages --path ./src/localize/languages --format json",
     "rollup": "rollup -c"
   },
   "dependencies": {
@@ -37,7 +39,8 @@
     "@material/mwc-textfield": "^0.27.0",
     "@mdi/js": "^7.4.47",
     "custom-card-helpers": "^1.7.2",
-    "lit": "^3.1.1"
+    "lit": "^3.1.1",
+    "locize-cli": "^8.0.1"
   },
   "devDependencies": {
     "@rollup/plugin-json": "^6.1.0",

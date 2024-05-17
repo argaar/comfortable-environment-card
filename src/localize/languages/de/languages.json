@@ -1,0 +1,37 @@
+{
+  "common": {
+    "description": "Eine Karte, die Informationen zum Wärmeindex und zum Unbehaglichkeitsindex basierend auf Temperatur und Luftfeuchtigkeit in einem Raum anzeigt.",
+    "di": "Unbehaglichkeitsindex",
+    "hi": "Wärmeindex",
+    "humidity": "Luftfeuchtigkeit",
+    "invalid_configuration": "Die Konfiguration für diese Karte ist ungültig oder existiert nicht. Bitte überprüfe die Konfiguration!",
+    "temperature": "Temperatur",
+    "version": "Version"
+  },
+  "configurator": {
+    "hum_sensor": "Luftfeuchtigkeitssensor",
+    "room_name": "Raumname",
+    "show_index": "Wähle aus, welche Indexe du anzeigen möchtest.",
+    "temp_sensor": "Temperatursensor"
+  },
+  "states": {
+    "di": [
+      "Äußerst unangenehm",
+      "Mäßig unangenehm",
+      "Relativ komfortabel",
+      "Komfortabel",
+      "Weniger als 50% der Bevölkerung fühlen sich unwohl",
+      "Mehr als 50% der Bevölkerung fühlen sich unwohl",
+      "Die Mehrheit der Bevölkerung fühlt sich unwohl",
+      "Alle fühlen eine starke Belastung",
+      "Zustand eines medizinischen Notstands"
+    ],
+    "hi": [
+      "Gut",
+      "Vorsicht",
+      "Äußerste Vorsicht",
+      "Gefahr",
+      "Äußerste Gefahr"
+    ]
+  }
+}

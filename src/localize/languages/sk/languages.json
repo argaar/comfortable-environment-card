@@ -1,0 +1,38 @@
+{
+  "common": {
+    "description": "Karta zobrazujúca informácie o tepelnom indexe a indexe nepohodlia na základe teploty a vlhkosti v miestnosti!",
+    "di": "Index nepohodlia",
+    "hi": "Teplotný index",
+    "humidity": "Vlhkosť",
+    "invalid_configuration": "Konfigurácia karty komfortného prostredia je neplatná alebo neexistuje, preskúmajte to!",
+    "temperature": "Teplota",
+    "version": "Verzia"
+  },
+  "configurator": {
+    "display_precision": "Zobraziť N čísiel za desatinnou čiarkou",
+    "hum_sensor": "Snímač vlhkosti",
+    "room_name": "Názov miestnosti",
+    "show_index": "Vyberte, ktorý index chcete zobraziť",
+    "temp_sensor": "Snímač teploty"
+  },
+  "states": {
+    "di": [
+      "Pocit extrémneho nepohodlia",
+      "Pocit mierneho nepohodlia",
+      "Relatívne pohodlie",
+      "Žiadne nepohodlie",
+      "Menej ako 50 % populácie pociťuje nepohodlie",
+      "Viac ako 50 % populácie pociťuje nepohodlie",
+      "Väčšina populácie pociťuje nepohodlie",
+      "Každý cíti silný stres",
+      "Stav lekárskej núdze"
+    ],
+    "hi": [
+      "Dobré",
+      "Upozornenie",
+      "Extrémne upozornenie",
+      "Nebezpečenstvo",
+      "Extrémne nebezpečenstvo"
+    ]
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "common": {
+    "description": "A card displaying info about Heat Index and Discomfort Index based on temperature&humidity in a room!",
+    "di": "Discomfort Index",
+    "hi": "Heat Index",
+    "humidity": "Humidity",
+    "invalid_configuration": "The configuration for Comfortable Environment Card is invalid or not exists, please investigate!",
+    "temperature": "Temperature",
+    "version": "Version"
+  },
+  "configurator": {
+    "display_precision": "Display N numbers after decimal",
+    "hum_sensor": "Humidity Sensor",
+    "index_showinfo": "Display index info",
+    "room_name": "Room Name",
+    "show_index": "Choose which index you want to show",
+    "show_realvalues": "Display real values in top right corner",
+    "temp_sensor": "Temperature Sensor"
+  },
+  "states": {
+    "di": [
+      "Extremely Uncomfortable",
+      "Moderately Uncomfortable",
+      "Relatively Comfortable",
+      "Comfortable",
+      "Less than 50% of the population feel uncomfortable",
+      "More than 50% of the population feel uncomfortable",
+      "Most of population feels uncomfortable",
+      "Everyone feels severe stress",
+      "State of medical emergency"
+    ],
+    "hi": [
+      "Good",
+      "Caution",
+      "Extreme Caution",
+      "Danger",
+      "Extreme Danger"
+    ]
+  }
+}
