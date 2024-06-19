@@ -1,0 +1,40 @@
+{
+  "common": {
+    "description": "Karta wyświetlająca informacje na temat indeksu cieplnego i indeksu dyskomfortu cieplnego bazując na temperaturze i wilgotności w pokoju!",
+    "di": "Indeks dyskomfortu cieplnego",
+    "hi": "Indeks cieplny",
+    "humidity": "Wilgotność",
+    "invalid_configuration": "konfiguracja karty "Comfortable Environment" jest nieprawidłowa lub nie ustnieje, sprawdź ustawienia!",
+    "temperature": "Temperatura",
+    "version": "Wersja"
+  },
+  "configurator": {
+    "display_precision": "Wyświetl N liczb po przecinku",
+    "hum_sensor": "Czujnik wilgotności",
+    "index_showinfo": "Display index info",
+    "room_name": "Nazwa pokoju",
+    "show_index": "Wybierz który indeks chcesz pokazać",
+    "show_realvalues": "Wyświetl dokładne wartości w prawym górnym rogu",
+    "temp_sensor": "Czujnik temperatury"
+  },
+  "states": {
+    "di": [
+      "Ekstremalnie nieprzyjemnie",
+      "Umiartowanie nieprzyjemnie",
+      "Stosunkowo przyjemnie",
+      "Przyjemnie",
+      "Poniżej 50% populacji czuje się niekomfortowo",
+      "Powyżej 50% populacji czyje się komfortowo",
+      "Większość populacji czuje się niekomfortowo",
+      "Każdy odczuwa silny stres",
+      "Stan zagrożenia medycznego"
+    ],
+    "hi": [
+      "Dobrze",
+      "Zachowaj ostrzeżenie",
+      "Zachowaj szczególną ostrożność",
+      "Niebezpieczeństwo",
+      "Olbrzymie niebezpieczeństwo"
+    ]
+  }
+}
