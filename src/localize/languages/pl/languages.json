@@ -4,7 +4,7 @@
     "di": "Indeks dyskomfortu cieplnego",
     "hi": "Indeks cieplny",
     "humidity": "Wilgotność",
-    "invalid_configuration": "konfiguracja karty "Comfortable Environment" jest nieprawidłowa lub nie ustnieje, sprawdź ustawienia!",
+    "invalid_configuration": "konfiguracja karty Comfortable Environment jest nieprawidłowa lub nie ustnieje, sprawdź ustawienia!",
     "temperature": "Temperatura",
     "version": "Wersja"
   },
@@ -24,7 +24,7 @@
       "Stosunkowo przyjemnie",
       "Przyjemnie",
       "Poniżej 50% populacji czuje się niekomfortowo",
-      "Powyżej 50% populacji czyje się komfortowo",
+      "Powyżej 50% populacji czyje się niekomfortowo",
       "Większość populacji czuje się niekomfortowo",
       "Każdy odczuwa silny stres",
       "Stan zagrożenia medycznego"
