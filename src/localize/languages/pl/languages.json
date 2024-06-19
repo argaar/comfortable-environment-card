@@ -11,7 +11,7 @@
   "configurator": {
     "display_precision": "Wyświetl N liczb po przecinku",
     "hum_sensor": "Czujnik wilgotności",
-    "index_showinfo": "Display index info",
+    "index_showinfo": "Wyświetl szczegóły",
     "room_name": "Nazwa pokoju",
     "show_index": "Wybierz który indeks chcesz pokazać",
     "show_realvalues": "Wyświetl dokładne wartości w prawym górnym rogu",
@@ -31,7 +31,7 @@
     ],
     "hi": [
       "Dobrze",
-      "Zachowaj ostrzeżenie",
+      "Zachowaj ostrożnośc",
       "Zachowaj szczególną ostrożność",
       "Niebezpieczeństwo",
       "Olbrzymie niebezpieczeństwo"
