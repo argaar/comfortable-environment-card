@@ -11,8 +11,10 @@
   "configurator": {
     "display_precision": "Zobraziť N čísiel za desatinnou čiarkou",
     "hum_sensor": "Snímač vlhkosti",
+    "index_showinfo": "Zobraziť index info",
     "room_name": "Názov miestnosti",
     "show_index": "Vyberte, ktorý index chcete zobraziť",
+    "show_realvalues": "Zobrazte skutočné hodnoty v pravom hornom rohu",
     "temp_sensor": "Snímač teploty"
   },
   "states": {
