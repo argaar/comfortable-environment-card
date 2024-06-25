@@ -9,9 +9,12 @@
     "version": "Verze"
   },
   "configurator": {
+    "display_precision": "Zobrazit N čísel po des. čárce",
     "hum_sensor": "Senzor vlhkosti",
+    "index_showinfo": "Zobrazit info o indexu",
     "room_name": "Název oblasti",
     "show_index": "Vyberte, které indexy chcete zobrazit",
+    "show_realvalues": "Zobrazit reálné hodnoty v pravém horním rohu",
     "temp_sensor": "Senzor teploty"
   },
   "states": {

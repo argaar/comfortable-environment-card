@@ -85,6 +85,7 @@ Thanks to the people listed below and many more, this card is available in the f
 * Greek - ![gr_lang_status][trans_gr_lang] - Originally translated by [@tzam](https://github.com/tzamer)
 * Hungarian - ![hu_lang_status][trans_hu_lang] - Originally translated by [@n0is3r](https://github.com/n0is3r)
 * Italian - ![it_lang_status][trans_it_lang] - Originally translated by [@argaar](https://github.com/argaar)
+* Polish - ![pl_lang_status][trans_pl_lang] - Originally translated by [@mailwash](https://github.com/mailwash)
 * Portuguese - ![pt_lang_status][trans_pt_lang] - Originally translated by [@FragMenthor](https://github.com/FragMenthor)
 * Russian - ![ru_lang_status][trans_ru_lang] - Originally translated by [@kai-zer-ru](https://github.com/kai-zer-ru)
 * Slovak - ![sk_lang_status][trans_sk_lang] - Originally translated by [@misa1515](https://github.com/misa1515)
@@ -129,6 +130,8 @@ If you can help translating some text, head to invitation link on [Locize](https
 [trans_hu_lang]:https://img.shields.io/badge/dynamic/json.svg?style=plastic&color=2096F3&label=locize&query=%24.versions%5B'latest'%5D.languages%5B'hu'%5D.translatedPercentage&url=https://api.locize.app/badgedata/535e704d-ed8a-4d1d-88b6-f29e6a61507a&suffix=%+translated&link=https://www.locize.com&prefix=hu:+
 
 [trans_nl_lang]:https://img.shields.io/badge/dynamic/json.svg?style=plastic&color=2096F3&label=locize&query=%24.versions%5B'latest'%5D.languages%5B'nl'%5D.translatedPercentage&url=https://api.locize.app/badgedata/535e704d-ed8a-4d1d-88b6-f29e6a61507a&suffix=%+translated&link=https://www.locize.com&prefix=nl:+
+
+[trans_pl_lang]:https://img.shields.io/badge/dynamic/json.svg?style=plastic&color=2096F3&label=locize&query=%24.versions%5B'latest'%5D.languages%5B'pl'%5D.translatedPercentage&url=https://api.locize.app/badgedata/535e704d-ed8a-4d1d-88b6-f29e6a61507a&suffix=%+translated&link=https://www.locize.com&prefix=pl:+
 
 [trans_pt_lang]:https://img.shields.io/badge/dynamic/json.svg?style=plastic&color=2096F3&label=locize&query=%24.versions%5B'latest'%5D.languages%5B'pt'%5D.translatedPercentage&url=https://api.locize.app/badgedata/535e704d-ed8a-4d1d-88b6-f29e6a61507a&suffix=%+translated&link=https://www.locize.com&prefix=pt:+
 
