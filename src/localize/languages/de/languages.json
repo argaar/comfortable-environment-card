@@ -9,9 +9,12 @@
     "version": "Version"
   },
   "configurator": {
+    "display_precision": "Anhzahl der Nachkommastellen",
     "hum_sensor": "Luftfeuchtigkeitssensor",
+    "index_showinfo": "Datenfeld Beschriffung",
     "room_name": "Raumname",
     "show_index": "Wähle aus, welche Indexe du anzeigen möchtest.",
+    "show_realvalues": "Realwerte Rechtsoben anzeigen",
     "temp_sensor": "Temperatursensor"
   },
   "states": {
