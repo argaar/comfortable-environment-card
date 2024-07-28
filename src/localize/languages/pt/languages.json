@@ -4,16 +4,17 @@
     "di": "Índice de Desconforto",
     "hi": "Índice de Calor",
     "humidity": "Humidade",
-    "invalid_configuration": "A configuração do cartão é inválido ou não existe, por favor verifique!",
+    "invalid_configuration": "A configuração do cartão é inválida ou não existe, por favor verifique!",
     "temperature": "Temperatura",
     "version": "Versão"
   },
   "configurator": {
-    "display_precision": "Exibir N casas decimais",
+    "display_precision": "Mostrar N casas decimais",
     "hum_sensor": "Sensor de Humidade",
+    "index_showinfo": "Mostrar informação do índice",
     "room_name": "Nome da Divisão",
-    "show_index": "Escolha qual(ais) os índices a mostrar",
-    "show_realvalues": "Exibir valores reais no canto superior-direito",
+    "show_index": "Escolha qual(ais) o(s) índice(s) a mostrar",
+    "show_realvalues": "Mostrar valores reais no canto superior direito",
     "temp_sensor": "Sensor de Temperatura"
   },
   "states": {
