@@ -9,9 +9,12 @@
     "version": "Version"
   },
   "configurator": {
+    "display_precision": "Affichage de N nombres après la décimale",
     "hum_sensor": "Capteur d'humidité",
+    "index_showinfo": "Afficher les informations sur l'index",
     "room_name": "Nom de la pièce",
     "show_index": "Sélectionnez les index à afficher",
+    "show_realvalues": "Affichage les valeurs mesurées dans le coin supérieur droit",
     "temp_sensor": "Capteur de température"
   },
   "states": {
@@ -19,17 +22,17 @@
       "Inconfort extrême",
       "Inconfort modéré>",
       "Confort relatif",
-      "Pas d'inconfort",
-      "Inconfort modéré",
-      "Inconfort",
-      "Inconfort sévère",
-      "Inconfort extrême",
-      "Urgence médiale"
+      "Confortable",
+      "Inconfort modéré, moins de 50 % de la population se sent mal à l'aise",
+      "Inconfort, plus de 50 % de la population se sent mal à l'aise",
+      "Inconfort sévère, la majorité de la population se sent mal à l'aise",
+      "Inconfort extrême, tout le monde ressent un stress important",
+      "État d'urgence médicale"
     ],
     "hi": [
       "Bon",
       "Prudence",
-      "Prudence extrême",
+      "Extrême prudence",
       "Danger",
       "Danger extrême"
     ]
